@@ -4,23 +4,23 @@ import run
 
 
 
-class testUsernameInput(unittest.TestCase):
+# class testUsernameInput(unittest.TestCase):
     
-    def test_can_change_usernames(self):
+#     def test_can_change_usernames(self):
         
-        """
-        test to see if we can change our username
-        """
-        test_username = run.set_username()
-        self.assertNotEqual(test_username, "default")
+#         """
+#         test to see if we can change our username
+#         """
+#         test_username = run.set_username()
+#         self.assertNotEqual(test_username, "default")
         
-    def test_username_not_empty(self):
-        """
-        test to ensure empty inputs are rejected as usernames
-        """
-        test_username = run.set_username()
-        username_length = len(test_username)
-        self.assertTrue(username_length != 0)
+#     def test_username_not_empty(self):
+#         """
+#         test to ensure empty inputs are rejected as usernames
+#         """
+#         test_username = run.set_username()
+#         username_length = len(test_username)
+#         self.assertTrue(username_length != 0)
         
     
 class testQuestionsAnswersKeyWords(unittest.TestCase):
@@ -44,7 +44,6 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         for entry in returned_list:
             self.assertTrue(type(entry) is tuple)
 
-        
         
     
     def test_no_newline_text(self):
@@ -71,5 +70,33 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
             question = entry[0]
             index_of_last_char = len(question)-1
             self.assertEqual(question[index_of_last_char], "?")
+            
+            
+    def test_if_keyword_only_one_word(self):
+        """
+        test to confirm that keyword entries 
+        don't contain spaces
+        """
+        
+        test_questions_answers_keywords = run.get_questions_answers_keywords();
+        for entry in test_questions_answers_keywords:
+            keyword = entry[2]
+            self.assertNotIn(" ", keyword)
+            
+    def test_lowercase_answer_contains_keyword(self):
+        """
+        to to check that all keywords are 
+        included in the answer
+        """
+        
+        test_questions_answers_keywords = run.get_questions_answers_keywords();
+        for entry in test_questions_answers_keywords:
+            answer = entry[1].lower()
+            keyword = entry[2]
+            self.assertIn(keyword , answer)
+        
+
+        
+        
         
         

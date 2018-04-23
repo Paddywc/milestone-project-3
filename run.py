@@ -29,14 +29,16 @@ def get_questions_answers_keywords():
     with open("data/easy.txt", "r") as easy_doc:
         easy_lines = easy_doc.read().splitlines()
         
-    easy_questions = []
+    tuples_list = []
         
     for i in range(0, len(easy_lines), 4):
-        easy_questions.append((easy_lines[i], easy_lines[i+1], easy_lines[i+2]))
+        tuples_list.append((easy_lines[i], easy_lines[i+1], easy_lines[i+2]))
         
-    return (easy_questions)
-    
 
+    return (tuples_list)
+
+
+get_questions_answers_keywords()
 
 
 

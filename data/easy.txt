@@ -48,7 +48,7 @@ relationship
 
 Mary’s father has five daughters – Nana, Nene, Nini, Nono. What is the fifth daughter’s name?
 If you answered Nunu, you are wrong. It is Mary!
-Mary
+mary
 
 What kind of tree can you carry in your hand?
 A palm
