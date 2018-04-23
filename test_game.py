@@ -98,5 +98,26 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
 
         
         
+class testGameMechanics(unittest.TestCase):
+    
+    def test_questions_randomly_selected(self):
+        
+        """
+        checks if two lists of randomly generated tuples are not equal 
+        """
+     
+        questions_list = run.get_questions_answers_keywords()
+        
+        first_list = []
+        second_list = []
+        
+        for i in range(len(questions_list)):
+            first_list.append(run.random_question_tuple())
+        
+        for i in range(len(questions_list)):
+            second_list.append(run.random_question_tuple())
+            
+        self.assertNotEqual(first_list, second_list)
+        
         
         

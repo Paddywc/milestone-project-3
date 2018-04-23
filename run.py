@@ -1,6 +1,7 @@
 import os
 import json
 from flask import Flask
+from random import choice
 
 app = Flask(__name__)
 
@@ -38,9 +39,17 @@ def get_questions_answers_keywords():
     return (tuples_list)
 
 
-get_questions_answers_keywords()
 
-
+def random_question_tuple():
+    """
+    selects a random tuple from the tuples list
+    """
+    
+    questions_list = get_questions_answers_keywords()
+    random_tuple = choice(questions_list)
+    return(random_tuple)
+    
+    
 
 
 

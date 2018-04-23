@@ -26,7 +26,7 @@ What five-letter word becomes shorter when you add two letters to it?
 Short
 short
 
-What word begins and ends with an E but only has one letter?
+What word begins and ends with an 'E' but only has one letter?
 Envelope
 envelope
 
