@@ -22,7 +22,21 @@ def set_username():
         set_username()
     
 
-
+def get_questions():
+    """
+    reads the questions document and asks user a questions
+    """
+    with open("data/easy.txt", "r") as easy_doc:
+        easy_lines = easy_doc.read().splitlines()
+        
+    easy_questions = []
+        
+    for i in range(0, len(easy_lines), 4):
+        easy_questions.append(easy_lines[i])
+        
+    return (easy_questions)
+    
+get_questions()
 
 
 if __name__ == '__main__':
