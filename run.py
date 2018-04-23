@@ -13,9 +13,15 @@ def set_username():
     sets the user's username
     """
     username = input("Please enter your desired username: ")
-    return(username)
+    if len(username) > 0:
+        print("Hello "+ username)
+        return(username)
+    else:
+        print("Please enter a username")
+        print("")
+        set_username()
     
-print(username)
+
 
 
 
