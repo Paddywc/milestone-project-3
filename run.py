@@ -22,7 +22,7 @@ def set_username():
         set_username()
     
 
-def get_questions():
+def get_questions_answers_keywords():
     """
     reads the questions document and asks user a questions
     """
@@ -32,11 +32,14 @@ def get_questions():
     easy_questions = []
         
     for i in range(0, len(easy_lines), 4):
-        easy_questions.append(easy_lines[i])
+        easy_questions.append((easy_lines[i], easy_lines[i+1], easy_lines[i+2]))
         
     return (easy_questions)
     
-get_questions()
+
+
+
+
 
 
 if __name__ == '__main__':
