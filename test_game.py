@@ -152,10 +152,6 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
             answer = entry[1].lower()
             keyword = entry[2]
             self.assertIn(keyword , answer)
-
-        
-        
-class testGameMechanics(unittest.TestCase):
     
     def test_questions_randomly_selected(self):
         
@@ -177,9 +173,43 @@ class testGameMechanics(unittest.TestCase):
             
         self.assertNotEqual(first_list, second_list)
         
+    def test_repeat_questions_return_false(self):
+        """
+        Test to see if check_question_is_original returns
+        false if the question has already been asked
+        """
+        questions_list = run.get_questions_answers_keywords("Easy") 
+        question = questions_list[0]
+        used_questions = []
+        used_questions = run.check_question_is_original(question, used_questions)
+        
+        self.assertFalse(run.check_question_is_original(question, used_questions))
+    
+    def test_original_question_returns_true(self):
+        """
+        test to check if check_question_is_original returns
+        truthy if question has NOT already been asked
+        """
+        questions_list = run.get_questions_answers_keywords("Easy") 
+        question1 = questions_list[0]
+        question2 = questions_list[1]
+        used_questions = []
+        used_questions = run.check_question_is_original(question1, used_questions)
+        
+        self.assertTrue(run.check_question_is_original(question2, used_questions))
+
+        
+        
+        
         
     
    
+
+        
+        
+class testGameMechanics(unittest.TestCase):
+    
+
         
         
     def check_answer_framework(self, given_answer, expected_out):

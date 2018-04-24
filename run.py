@@ -55,15 +55,36 @@ def get_questions_answers_keywords(difficulty):
 
 
 
-def random_question_tuple(difficulty):
+    
+    
+def check_question_is_original(question_tuple, used_questions):
+    """
+    checks to see if a question has
+    already been asked
+    """
+   
+        
+    if question_tuple not in used_questions:
+        used_questions.append(question_tuple)
+        return used_questions
+    
+    else:
+        return False
+
+def random_question_tuple(difficulty, used_questions):
     """
     selects a random tuple from the tuples list
+    returns it if it has not already been asked
     """
     
     questions_list = get_questions_answers_keywords(difficulty)
     random_tuple = choice(questions_list)
-    return(random_tuple)
     
+    if check_question_is_original(random_tuple, used_questions):
+        return random_tuple
+    
+    else:
+        random_question_tuple(difficulty, used_questions)
     
 
 def ask_question(question):
@@ -101,7 +122,9 @@ def add_point(score):
     print("Current score: {0}".format(score))
     return score
         
-def game_rounds(initial_question, lives, score):
+def game_rounds(initial_question, lives, score, used_questions):
+    
+    
     
     
     if lives > 0:
@@ -109,22 +132,34 @@ def game_rounds(initial_question, lives, score):
         ask_question(initial_question)
         correct_answer= answer_question(initial_question)
         
+        
         if correct_answer:
             score = add_point(score)
             difficulty = set_difficulty(score)
             print("Difficulty: "+ difficulty)
             print("Next question...\n")
-            game_rounds(random_question_tuple(difficulty), lives, score)
+            game_rounds(random_question_tuple(difficulty, used_questions), lives, score, used_questions)
         else:
             lives -= 1
             print("Remaining lives: {}\n".format(lives))
             print("Guess again...")
-            game_rounds(initial_question, lives, score)
+            game_rounds(initial_question, lives, score, used_questions)
     
     else:
         return False
             
+            
+def play_game():
+    score = 0
+    lives = 3
+    used_questions = []
+    initial_question= random_question_tuple("Easy", used_questions)
+    
+    game_rounds(initial_question, lives, score, used_questions)
              
+             
+             
+play_game()
 
     
     
