@@ -34,7 +34,7 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         a list
         """
         
-        returned_list = run.get_questions_answers_keywords()
+        returned_list = run.get_questions_answers_keywords("Easy")
         self.assertTrue(type(returned_list) is list)
         
     def test_if_list_of_tuples(self):
@@ -42,7 +42,7 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         test to check if returned list contains
         only tuples
         """
-        returned_list = run.get_questions_answers_keywords()
+        returned_list = run.get_questions_answers_keywords("Easy")
         for entry in returned_list:
             self.assertTrue(type(entry) is tuple)
 
@@ -54,7 +54,7 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         fails if it does
         """
         
-        test_questions = run.get_questions_answers_keywords()
+        test_questions = run.get_questions_answers_keywords("Normal")
         self.assertNotIn("\n", test_questions[0])
         self.assertNotIn("\n", test_questions[3])
         self.assertNotIn("\n", test_questions[4])
@@ -67,12 +67,45 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         contains lines ending in a question mark
         """
         
-        test_questions_answers_keywords = run.get_questions_answers_keywords();
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Easy");
         for entry in test_questions_answers_keywords:
             question = entry[0]
             index_of_last_char = len(question)-1
             self.assertEqual(question[index_of_last_char], "?")
             
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Normal");
+        for entry in test_questions_answers_keywords:
+            question = entry[0]
+            index_of_last_char = len(question)-1
+            self.assertEqual(question[index_of_last_char], "?")
+            
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Hard");
+        for entry in test_questions_answers_keywords:
+            question = entry[0]
+            index_of_last_char = len(question)-1
+            self.assertEqual(question[index_of_last_char], "?")
+            
+            
+    def test_correct_file_chosen(self):
+        """
+        tests if the correct file with chosen for 
+        the difficulty by verifying that index[0]
+        of the first tuple is the first line of
+        the appropriate file
+        """
+        
+        easy_tuple_list= run.get_questions_answers_keywords("Easy")
+        normal_tuple_list= run.get_questions_answers_keywords("Normal")
+        hard_tuple_list= run.get_questions_answers_keywords("Hard")
+        
+        first_line_easy_doc = "What goes up but never goes down?"
+        first_line_normal_doc = "It is higher without the head, than with it. What is it?"
+        first_line_hard_doc = "A cloud is my mother, the wind is my father, my son is the cool stream, and my daughter is the fruit of the land. A rainbow is my bed, the earth my final resting place, and I am the torment of man. What am I?"
+        
+        self.assertEqual(easy_tuple_list[0][0], first_line_easy_doc)
+        self.assertEqual(normal_tuple_list[0][0], first_line_normal_doc)
+        self.assertEqual(hard_tuple_list[0][0], first_line_hard_doc)
+        
             
     def test_if_keyword_only_one_word(self):
         """
@@ -80,7 +113,17 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         don't contain spaces
         """
         
-        test_questions_answers_keywords = run.get_questions_answers_keywords();
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Easy");
+        for entry in test_questions_answers_keywords:
+            keyword = entry[2]
+            self.assertNotIn(" ", keyword)
+            
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Normal");
+        for entry in test_questions_answers_keywords:
+            keyword = entry[2]
+            self.assertNotIn(" ", keyword)
+            
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Hard");
         for entry in test_questions_answers_keywords:
             keyword = entry[2]
             self.assertNotIn(" ", keyword)
@@ -91,12 +134,24 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         included in the answer
         """
         
-        test_questions_answers_keywords = run.get_questions_answers_keywords();
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Easy");
         for entry in test_questions_answers_keywords:
             answer = entry[1].lower()
             keyword = entry[2]
             self.assertIn(keyword , answer)
-        
+            
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Normal");
+        for entry in test_questions_answers_keywords:
+            answer = entry[1].lower()
+            keyword = entry[2]
+            self.assertIn(keyword , answer)
+            
+              
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Hard");
+        for entry in test_questions_answers_keywords:
+            answer = entry[1].lower()
+            keyword = entry[2]
+            self.assertIn(keyword , answer)
 
         
         
@@ -109,16 +164,16 @@ class testGameMechanics(unittest.TestCase):
         tuples are not equal 
         """
      
-        questions_list = run.get_questions_answers_keywords()
+        questions_list = run.get_questions_answers_keywords("Easy")
         
         first_list = []
         second_list = []
         
         for i in range(len(questions_list)):
-            first_list.append(run.random_question_tuple())
+            first_list.append(run.random_question_tuple("Easy"))
         
         for i in range(len(questions_list)):
-            second_list.append(run.random_question_tuple())
+            second_list.append(run.random_question_tuple("Easy"))
             
         self.assertNotEqual(first_list, second_list)
         
@@ -139,7 +194,7 @@ class testGameMechanics(unittest.TestCase):
         """
         
         with patch('builtins.input', return_value=given_answer), patch('sys.stdout', new=StringIO()) as fake_out:
-            questions_list = run.get_questions_answers_keywords() 
+            questions_list = run.get_questions_answers_keywords("Easy") 
             question = questions_list[0]
             run.answer_question(question)
             self.assertEqual(fake_out.getvalue().strip(), expected_out)
@@ -161,7 +216,7 @@ class testGameMechanics(unittest.TestCase):
         test to check that game_rounds()
         returns false if user has no lives
         """
-        self.assertFalse(run.game_rounds([], 0))
+        self.assertFalse(run.game_rounds([], 0, "Easy"))
         
 
         
@@ -196,4 +251,6 @@ class testGameMechanics(unittest.TestCase):
         self.assertEqual(run.set_difficulty(6),"Normal")
         self.assertEqual(run.set_difficulty(7),"Hard")
         self.assertEqual(run.set_difficulty(8),"Hard")
+        
+        
         

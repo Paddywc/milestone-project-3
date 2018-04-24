@@ -22,30 +22,45 @@ def set_username():
         print("")
         set_username()
     
-
-def get_questions_answers_keywords():
+             
+def set_difficulty(current_score):
     """
-    reads the questions document and asks user a questions
+    returns a difficulty level string
+    determined by the current score  
+    entered as an int parameter
     """
-    with open("data/easy.txt", "r") as easy_doc:
-        easy_lines = easy_doc.read().splitlines()
+    if current_score >= 7:
+        return "Hard"
+    elif current_score >=2:
+        return "Normal"
+    else:
+        return "Easy"
+    
+def get_questions_answers_keywords(difficulty):
+    """
+    returns list of tuples in format of (question, answer, keyword)
+    read from questions document, determined by difficulty 
+    """
+    
+    with open("data/{}.txt".format(difficulty.lower()), "r") as questions_doc:
+        doc_lines = questions_doc.read().splitlines()
         
     tuples_list = []
         
-    for i in range(0, len(easy_lines), 4):
-        tuples_list.append((easy_lines[i], easy_lines[i+1], easy_lines[i+2]))
+    for i in range(0, len(doc_lines), 4):
+        tuples_list.append((doc_lines[i], doc_lines[i+1], doc_lines[i+2]))
         
 
     return (tuples_list)
 
 
 
-def random_question_tuple():
+def random_question_tuple(difficulty):
     """
     selects a random tuple from the tuples list
     """
     
-    questions_list = get_questions_answers_keywords()
+    questions_list = get_questions_answers_keywords(difficulty)
     random_tuple = choice(questions_list)
     return(random_tuple)
     
@@ -86,9 +101,8 @@ def add_point(score):
     print("Current score: {0}".format(score))
     return score
         
-def game_rounds(initial_question, lives):
+def game_rounds(initial_question, lives, score):
     
-    score = 0
     
     if lives > 0:
         
@@ -96,38 +110,27 @@ def game_rounds(initial_question, lives):
         correct_answer= answer_question(initial_question)
         
         if correct_answer:
-            print("\n Next question...")
             score = add_point(score)
-            game_rounds(random_question_tuple(), lives)
+            difficulty = set_difficulty(score)
+            print("Difficulty: "+ difficulty)
+            print("Next question...\n")
+            game_rounds(random_question_tuple(difficulty), lives, score)
         else:
             lives -= 1
             print("Remaining lives: {}\n".format(lives))
             print("Guess again...")
-            game_rounds(initial_question, lives)
+            game_rounds(initial_question, lives, score)
     
     else:
         return False
             
              
-             
-def set_difficulty(current_score):
-    """
-    returns a difficulty level string
-    determined by the current score  
-    entered as an int parameter
-    """
-    if current_score >= 7:
-        return "Hard"
-    elif current_score >=2:
-        return "Normal"
-    else:
-        return "Easy"
-    
+
     
     
     
 
-#game_rounds(random_question_tuple(), 2)
+#game_rounds(random_question_tuple("Easy"), 2, 0)
    
    
       
