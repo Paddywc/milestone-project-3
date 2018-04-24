@@ -197,3 +197,5 @@ class testGameMechanics(unittest.TestCase):
         self.assertEqual(run.set_difficulty(7),"Hard")
         self.assertEqual(run.set_difficulty(8),"Hard")
         
+        
+        

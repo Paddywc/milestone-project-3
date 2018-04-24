@@ -78,6 +78,10 @@ def answer_question(question):
         
 
 def add_point(score):
+    """
+    adds 1 to the parameter 
+    then prints and returns it
+    """
     score += 1
     print("Current score: {0}".format(score))
     return score
@@ -104,9 +108,26 @@ def game_rounds(initial_question, lives):
     else:
         return False
             
-                
+             
+             
+def set_difficulty(current_score):
+    """
+    returns a difficulty level string
+    determined by the current score  
+    entered as an int parameter
+    """
+    if current_score >= 7:
+        return "Hard"
+    elif current_score >=2:
+        return "Normal"
+    else:
+        return "Easy"
+    
+    
+    
+    
 
-game_rounds(random_question_tuple(), 1)
+#game_rounds(random_question_tuple(), 2)
    
    
       
