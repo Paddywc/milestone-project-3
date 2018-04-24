@@ -50,6 +50,39 @@ def random_question_tuple():
     return(random_tuple)
     
     
+question_tuple = random_question_tuple()
+
+def ask_question(question):
+    """
+    asks question to the user
+    """
+    print(question[0])
+    
+def answer_question(question):
+    """
+    asks user for an answer and
+    check if it contains the keyword
+    """
+    user_answer = input(">> Your answer: ")
+    lower_user_answer = user_answer.lower()
+    user_answer_list = lower_user_answer.split()
+    
+    keyword = question[2]
+    
+    if keyword in user_answer_list:
+        print("Correct!")
+        return True
+    else:
+        print("Wrong!")
+        return False
+        
+        
+        
+    
+# print (answer_question(question_tuple))
+    
+
+    
 
 
 
