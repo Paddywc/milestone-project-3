@@ -134,12 +134,12 @@ class testGameMechanics(unittest.TestCase):
         framework to test if user input leads 
         to the desired response in the console
         used in tests below 
-        code from https://stackoverflow.com/questions/21046717/python-mocking-raw-input-in-unittests
+        code partly from https://stackoverflow.com/questions/21046717/python-mocking-raw-input-in-unittests
         keyword for question is 'age'
         """
         
         with patch('builtins.input', return_value=given_answer), patch('sys.stdout', new=StringIO()) as fake_out:
-            questions_list = run.get_questions_answers_keywords()
+            questions_list = run.get_questions_answers_keywords() 
             question = questions_list[0]
             run.answer_question(question)
             self.assertEqual(fake_out.getvalue().strip(), expected_out)
@@ -156,6 +156,13 @@ class testGameMechanics(unittest.TestCase):
         self.check_answer_framework('AGe', "Correct!")
 
         
+    def test_no_lives_returns_false(self):
+        """
+        test to check that game_rounds()
+        returns false if user has no lives
+        """
+        self.assertFalse(run.game_round([], 0))
         
+
         
-        
+

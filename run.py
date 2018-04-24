@@ -50,7 +50,6 @@ def random_question_tuple():
     return(random_tuple)
     
     
-question_tuple = random_question_tuple()
 
 def ask_question(question):
     """
@@ -77,12 +76,32 @@ def answer_question(question):
         return False
         
         
-        
-    
-# print (answer_question(question_tuple))
+def game_round(initial_question, lives):
     
 
-    
+        if lives > 0:
+            
+            ask_question(initial_question)
+            correct_answer= answer_question(initial_question)
+            
+            if correct_answer:
+                print("\n Next question...\n")
+                game_round(random_question_tuple(), lives)
+            else:
+                lives -= 1
+                print("Remaining lives: {}\n".format(lives))
+                print("Guess again...")
+                game_round(initial_question, lives)
+        
+        else:
+            return False
+                
+                
+
+   
+   
+      
+        
 
 
 
