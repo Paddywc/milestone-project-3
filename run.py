@@ -76,28 +76,37 @@ def answer_question(question):
         return False
         
         
-def game_round(initial_question, lives):
-    
 
-        if lives > 0:
-            
-            ask_question(initial_question)
-            correct_answer= answer_question(initial_question)
-            
-            if correct_answer:
-                print("\n Next question...\n")
-                game_round(random_question_tuple(), lives)
-            else:
-                lives -= 1
-                print("Remaining lives: {}\n".format(lives))
-                print("Guess again...")
-                game_round(initial_question, lives)
+def add_point(score):
+    score += 1
+    print("Current score: {0}".format(score))
+    return score
         
+def game_rounds(initial_question, lives):
+    
+    score = 0
+    
+    if lives > 0:
+        
+        ask_question(initial_question)
+        correct_answer= answer_question(initial_question)
+        
+        if correct_answer:
+            print("\n Next question...")
+            score = add_point(score)
+            game_rounds(random_question_tuple(), lives)
         else:
-            return False
-                
+            lives -= 1
+            print("Remaining lives: {}\n".format(lives))
+            print("Guess again...")
+            game_rounds(initial_question, lives)
+    
+    else:
+        return False
+            
                 
 
+game_rounds(random_question_tuple(), 1)
    
    
       

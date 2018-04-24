@@ -161,8 +161,16 @@ class testGameMechanics(unittest.TestCase):
         test to check that game_rounds()
         returns false if user has no lives
         """
-        self.assertFalse(run.game_round([], 0))
+        self.assertFalse(run.game_rounds([], 0))
         
 
         
-
+    def test_add_point_increases_score(self):
+        """
+        test to check if score is increased
+        """
+        score = run.add_point(2)
+        self.assertEqual(score, 3)
+        score = run.add_point(3)
+        self.assertEqual(score,4)
+        
