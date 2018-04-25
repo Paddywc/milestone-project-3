@@ -222,10 +222,15 @@ def game_rounds(initial_question, lives, score, used_questions):
     
     else:
         return score
+    
+    
+       
         
-        
-        
-        
+
+    
+    
+    
+    
         
 def log_score(username, score):
     """
@@ -235,7 +240,8 @@ def log_score(username, score):
     
     with open("data/all_scores.txt", "a") as all_scores:
         all_scores.write("{0},{1}\n".format(username,score))
-        
+ 
+ 
         
 def create_scores_tuple_list():
     """
@@ -265,7 +271,52 @@ def sort_scores(scores_tuple_list):
     
     
 
+        
+def multiplayer_game_rounds(gameplay_list, used_questions):
     
+    for player in gameplay_list:
+        difficulty = set_difficulty(player[2])
+        print("{0}, it's your turn...".format(player[0]))
+        print("Difficulty: "+ difficulty)
+        
+        question = random_question_tuple(difficulty, used_questions)
+        ask_question(question)
+        correct_answer= answer_question(question)
+        if correct_answer:
+            print("Well done {0}!".format(player[0]))
+            player[2] = add_point(player[2])
+            print("")
+        else:
+            player[1] -= 1
+            print("remaining lives: {0}".format(player[1]))
+            if player[1] == 0:
+                print("{0} has been eliminated. \nFinal score: {1}".format(player[0], player[2]))
+
+            
+        
+def remove_eliminated_players(gameplay_list):
+    
+    player_removed = False
+    
+    for i in range(len(gameplay_list)-1):
+        
+        player_lives = gameplay_list[i][1]
+        if player_lives == 0:
+            
+            log_score(gameplay_list[i][0], gameplay_list[i][2])
+            gameplay_list.pop(i)
+            player_removed = True
+    
+    if player_removed:
+        remove_eliminated_players(gameplay_list)
+        
+    return gameplay_list
+            
+            
+
+            
+            
+        
     
 
         
@@ -285,7 +336,7 @@ def play_game():
     lives = 3
     used_questions = []
     initial_question= random_question_tuple("Easy", used_questions)
-    print (initial_question)
+    # print (initial_question)
     
     score = game_rounds(initial_question, lives, score, used_questions)
     log_score(username, score)

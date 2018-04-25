@@ -420,6 +420,24 @@ class testGameMechanics(unittest.TestCase):
         returned_value = run.game_rounds(initial_question, lives, score, used_questions)
         self.assertEqual(returned_value, score)
         
+    def test_player_eliminated_when_zero_lives(self):
+        """
+        test to confirm that remove_eliminated_players 
+        retruns an array without players with 0 lives
+        """
+        
+        player_list = [["should stay", 2 , 2], ["survive", 1, 3], 
+        ["dead" , 0, 5], ["should go", 0, 1], ["still alive", 1, 0]]
+        
+
+        run.remove_eliminated_players(player_list)
+        
+        for remaining_player in player_list:
+            player_lives = remaining_player[1]
+            self.assertTrue(player_lives > 0)
+        
+        
+        
         
         
 class testLeaderboards(unittest.TestCase):
