@@ -38,6 +38,17 @@ def multiple_users(user_value):
     else:
         return True
     
+    
+def create_multiple_users_gameplay_lists(username_list, lives, score):
+    """
+    returns a list of lists to be used in gameplay loop
+    each list contains username,lives,score
+    """
+    gameplay_list = []
+    for username in username_list:
+        gameplay_list.append([username, lives, score])
+        
+    return gameplay_list
 
     
              
