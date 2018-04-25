@@ -35,7 +35,15 @@ class testUsernameInput(unittest.TestCase):
 
         self.assertEqual(length_of_list, 4)
         
-       
+    def test_multiple_users_correctly_recognized(self):
+        """
+        test to check if multiple_users returns true
+        when a list of users is entered and false when
+        a string is entered
+        """
+        self.assertFalse(run.multiple_users("Paddy"))
+        self.assertTrue(run.multiple_users(["Paddy", "Wilfred"]))
+     
         
    
     

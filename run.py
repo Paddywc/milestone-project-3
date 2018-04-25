@@ -30,6 +30,14 @@ def set_multiple_usernames(amount):
         username_list.append(username)
     return username_list
     
+    
+    
+def multiple_users(user_value):
+    if isinstance(user_value, str):
+        return False
+    else:
+        return True
+    
 
     
              
