@@ -224,6 +224,21 @@ def create_scores_tuple_list():
     
     
     
+def sort_scores(scores_tuple_list):
+    """
+    sorts the scores tuple list in
+    descending score. Code from:
+    https://stackoverflow.com/questions/3121979/how-to-sort-list-tuple-of-lists-tuples/3121985#3121985
+    """
+    
+    sorted_list = sorted(scores_tuple_list, reverse=True, key=lambda tup: tup[1])
+    return sorted_list
+    
+    
+print(sort_scores(create_scores_tuple_list()))
+    
+    
+    
 
         
         

@@ -426,6 +426,19 @@ class testLeaderboards(unittest.TestCase):
         
         self.assertTrue(isinstance(second_entry ,int))
         
+    
+    def test_scores_sorted_by_score(self):
+        """
+        test to check that sort_scores returns
+        a list of tuple where no tuple score
+        is larger than the previous entry
+        """
+        scores_tuple_list = run.create_scores_tuple_list()
+        sorted_list = run.sort_scores(scores_tuple_list)
+        for i in range (len(sorted_list)-1):
+            self.assertTrue(sorted_list[i][1] >= sorted_list[i+1][1])
+        
+        
         
         
   
