@@ -399,7 +399,17 @@ class testLeaderboards(unittest.TestCase):
             
         self.assertEqual(lines_before_log, lines_after_log-1)
         
-    
+    def test_creates_scores_tuple_list(self):
+        """
+        test to check that create_scores_tuple_list
+        returns a list of tuples
+        """
+        returned = run.create_scores_tuple_list()
+        self.assertTrue(isinstance(returned, list))
+        
+        first_entry = returned(0)
+        self.assertTrue(isinstance(first_entry, tuple))
+        
         
         
   
