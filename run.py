@@ -193,9 +193,29 @@ def game_rounds(initial_question, lives, score, used_questions):
     
     else:
         return score
+        
+        
+        
+        
+        
+def log_score(username, score):
+    """
+    appends all_scores.txt with 'username,score'
+    """
+    
+    
+    with open("data/all_scores.txt", "a") as all_scores:
+        all_scores.write("{0},{1}\n".format(username,score))
+        
+        
+    
+    
             
             
 def play_game():
+    
+    username=set_username()
+    
     score = 0
     lives = 3
     used_questions = []
@@ -207,6 +227,10 @@ def play_game():
              
              
 #play_game()
+
+# log_score("Paddy",6)
+# log_score("Pat",9)
+# log_score("Mike",3)
 
     
     

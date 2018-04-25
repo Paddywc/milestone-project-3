@@ -374,23 +374,32 @@ class testGameMechanics(unittest.TestCase):
         score = 3 
         returned_value = run.game_rounds(initial_question, lives, score, used_questions)
         self.assertEqual(returned_value, score)
+        
+        
+        
+class testLeaderboards(unittest.TestCase):
     
-    # def test_game_rounds_returns_number(self, given_answer):
+    def test_log_score_appends_doc(self):
+        """
+        test to check that the number of lines in
+        all_scores.txt increases by 1 when a score is logged
+        """
+      
+        lines_before_log = 0  
+        all_scores = open("data/all_scores.txt", "r") 
+        for line in all_scores:
+            lines_before_log += 1
+                
+        lines_after_log = 0
+        run.log_score("test", 5)
         
-        
-    #     """
-    #     framework to test if the returned value of 
-    #     game_rounds() is a number
-    #     code partly from https://stackoverflow.com/questions/21046717/python-mocking-raw-input-in-unittests
-
-    #     """
-        
-    #     with patch('builtins.input', return_value=given_answer), patch('sys.stdout', new=StringIO()) as fake_out:
-    #         questions_list = run.get_questions_answers_keywords("Easy") 
-    #         initial_question = questions_list[0]
-    #         used_questions = []
-    #         run.game_rounds(initial_question, 3, 0, used_questions)
-    #         self.assertTrue(fake_out.getvalue().strip() != )
+        all_scores.seek(0)
+        for line in all_scores:
+            lines_after_log +=1
             
-    # def test_number_returned(self):
-    #     self.test_game_rounds_returns_number("age")
+        self.assertEqual(lines_before_log, lines_after_log-1)
+        
+    
+        
+        
+  
