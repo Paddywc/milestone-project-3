@@ -267,6 +267,9 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         
         
     
+        
+        
+    
    
 
         
@@ -353,3 +356,41 @@ class testGameMechanics(unittest.TestCase):
         
         
         
+        
+        
+    def test_game_rounds_returns_score(self):
+        """
+        tests if game rounds returns the user's
+        score
+        """
+        used_questions = []
+        score = 5
+        lives = 0
+        initial_question= run.random_question_tuple("Normal", used_questions)
+        
+        returned_value = run.game_rounds(initial_question, lives, score, used_questions)
+        self.assertEqual(returned_value, score)
+        
+        score = 3 
+        returned_value = run.game_rounds(initial_question, lives, score, used_questions)
+        self.assertEqual(returned_value, score)
+    
+    # def test_game_rounds_returns_number(self, given_answer):
+        
+        
+    #     """
+    #     framework to test if the returned value of 
+    #     game_rounds() is a number
+    #     code partly from https://stackoverflow.com/questions/21046717/python-mocking-raw-input-in-unittests
+
+    #     """
+        
+    #     with patch('builtins.input', return_value=given_answer), patch('sys.stdout', new=StringIO()) as fake_out:
+    #         questions_list = run.get_questions_answers_keywords("Easy") 
+    #         initial_question = questions_list[0]
+    #         used_questions = []
+    #         run.game_rounds(initial_question, 3, 0, used_questions)
+    #         self.assertTrue(fake_out.getvalue().strip() != )
+            
+    # def test_number_returned(self):
+    #     self.test_game_rounds_returns_number("age")

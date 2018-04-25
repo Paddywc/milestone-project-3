@@ -192,7 +192,7 @@ def game_rounds(initial_question, lives, score, used_questions):
             game_rounds(initial_question, lives, score, used_questions)
     
     else:
-        return False
+        return score
             
             
 def play_game():
@@ -202,11 +202,11 @@ def play_game():
     initial_question= random_question_tuple("Easy", used_questions)
     print (initial_question)
     
-    game_rounds(initial_question, lives, score, used_questions)
+    score = game_rounds(initial_question, lives, score, used_questions)
              
              
              
-play_game()
+#play_game()
 
     
     
