@@ -208,6 +208,28 @@ def log_score(username, score):
         all_scores.write("{0},{1}\n".format(username,score))
         
         
+def create_scores_tuple_list():
+    """
+    returns a list of tuples. Each 
+    tuple is a line from all_scores.txt
+    """
+    
+    scores_tuple_list  = []
+    with open ("data/all_scores.txt", "r") as all_scores:
+        for i in all_scores.readlines():
+            tuple_entry = i.split(",")
+            scores_tuple_list.append((str(tuple_entry[0]), int(tuple_entry[1])))
+    
+    return scores_tuple_list
+    
+    
+    
+
+        
+        
+    
+        
+        
     
     
             

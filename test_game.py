@@ -397,6 +397,8 @@ class testLeaderboards(unittest.TestCase):
         for line in all_scores:
             lines_after_log +=1
             
+        all_scores.close()
+            
         self.assertEqual(lines_before_log, lines_after_log-1)
         
     def test_creates_scores_tuple_list(self):
@@ -407,8 +409,22 @@ class testLeaderboards(unittest.TestCase):
         returned = run.create_scores_tuple_list()
         self.assertTrue(isinstance(returned, list))
         
-        first_entry = returned(0)
+        first_entry = returned[0]
         self.assertTrue(isinstance(first_entry, tuple))
+        
+    
+    def test_second_entry_is_int(self):
+        """
+        test to check that the second entry of a 
+        tuple created by create_scores_tuple_list 
+        is an integer
+        """
+        
+        tuple_list = run.create_scores_tuple_list()
+        first_tuple = tuple_list[0]
+        second_entry = first_tuple[1]
+        
+        self.assertTrue(isinstance(second_entry ,int))
         
         
         
