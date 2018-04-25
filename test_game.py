@@ -166,6 +166,21 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
             first_entry = tuple_entry[0]
             index_of_last_char = len(first_entry) -1
             self.assertEqual(first_entry[index_of_last_char], "g")
+            
+    
+    def test_correctly_determine_picture_question(self):
+        """
+        test to check if question_is_picture_question returns
+        true if picture question and false otherwise
+        """
+        pictures_tuples_list = run.get_picture_tuple_list()
+        picture_question = pictures_tuples_list[0]
+        used_questions = []
+        text_question = run.random_question_tuple("Hard", used_questions)
+        
+        self.assertTrue(run.question_is_picture_question(picture_question))
+        self.assertFalse(run.question_is_picture_question(text_question))
+        
     
     
     def test_questions_randomly_selected(self):

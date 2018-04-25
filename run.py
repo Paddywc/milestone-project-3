@@ -108,13 +108,29 @@ def random_question_tuple(difficulty, used_questions):
     
     else:
         random_question_tuple(difficulty, used_questions)
+        
+
+
+def question_is_picture_question(question):
+    """
+    checks if question tuple is a picture
+    question
+    """
+    if len(question)==4: 
+        return True
+    else: 
+        return False
     
 
 def ask_question(question):
     """
     asks question to the user
     """
-    print(question[0])
+    if question_is_picture_question(question): 
+        print (question[0])
+        print (question[1])
+    else:
+        print(question[0])
     
 def answer_question(question):
     """
