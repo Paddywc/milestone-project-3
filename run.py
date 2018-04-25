@@ -29,31 +29,16 @@ def set_difficulty(current_score):
     determined by the current score  
     entered as an int parameter
     """
-    if current_score >= 7:
+    if current_score >= 8:
         return "Hard"
+    elif current_score >= 6:
+        return "Picture"
     elif current_score >=2:
         return "Normal"
     else:
         return "Easy"
-    
-def get_questions_answers_keywords(difficulty):
-    """
-    returns list of tuples in format of (question, answer, keyword)
-    read from questions document, determined by difficulty 
-    """
-    
-    with open("data/{}.txt".format(difficulty.lower()), "r") as questions_doc:
-        doc_lines = questions_doc.read().splitlines()
         
-    tuples_list = []
         
-    for i in range(0, len(doc_lines), 4):
-        tuples_list.append((doc_lines[i], doc_lines[i+1], doc_lines[i+2]))
-        
-
-    return tuples_list
-    
-    
     
 def get_picture_tuple_list():
     """
@@ -74,10 +59,29 @@ def get_picture_tuple_list():
     
     
         
+    
+def get_questions_answers_keywords(difficulty):
+    """
+    returns list of tuples in format of (question, answer, keyword)
+    read from questions document, determined by difficulty 
+    """
+    
+    if difficulty == "Picture":
+        return get_picture_tuple_list()
+        
+    else:
+        with open("data/{}.txt".format(difficulty.lower()), "r") as questions_doc:
+            doc_lines = questions_doc.read().splitlines()
+            
+        tuples_list = []
+            
+        for i in range(0, len(doc_lines), 4):
+            tuples_list.append((doc_lines[i], doc_lines[i+1], doc_lines[i+2]))
+            
 
-
-
-
+        return tuples_list
+    
+    
     
     
 def check_question_is_original(question_tuple, used_questions):
@@ -141,7 +145,10 @@ def answer_question(question):
     lower_user_answer = user_answer.lower()
     user_answer_list = lower_user_answer.split()
     
-    keyword = question[2]
+    if question_is_picture_question(question):
+        keyword = question[3]
+    else:
+        keyword = question[2]
     
     if keyword in user_answer_list:
         print("Correct!")
@@ -199,7 +206,7 @@ def play_game():
              
              
              
-# play_game()
+play_game()
 
     
     

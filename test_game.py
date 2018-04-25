@@ -113,20 +113,26 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         don't contain spaces
         """
         
-        test_questions_answers_keywords = run.get_questions_answers_keywords("Easy");
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Easy")
         for entry in test_questions_answers_keywords:
             keyword = entry[2]
             self.assertNotIn(" ", keyword)
             
-        test_questions_answers_keywords = run.get_questions_answers_keywords("Normal");
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Normal")
         for entry in test_questions_answers_keywords:
             keyword = entry[2]
             self.assertNotIn(" ", keyword)
             
-        test_questions_answers_keywords = run.get_questions_answers_keywords("Hard");
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Hard")
         for entry in test_questions_answers_keywords:
             keyword = entry[2]
             self.assertNotIn(" ", keyword)
+            
+        test_questions_answers_keywords = run.get_questions_answers_keywords("Picture")
+        for entry in test_questions_answers_keywords:
+            keyword = entry[3]
+            self.assertNotIn(" ", keyword)
+            
             
     def test_lowercase_answer_contains_keyword(self):
         """
@@ -180,6 +186,16 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         
         self.assertTrue(run.question_is_picture_question(picture_question))
         self.assertFalse(run.question_is_picture_question(text_question))
+        
+    def test_picture_difficulty_returns_picture_tuple(self):
+        """
+        test to check that a picture tuple list is returned if 
+        picture is eneted as an argument into get_questions_answers_keywords
+        """
+        
+        returned_tuple_list = run.get_questions_answers_keywords("Picture")
+        first_entry = returned_tuple_list[0]
+        self.assertEqual(len(first_entry), 4)
         
     
     
@@ -320,7 +336,7 @@ class testGameMechanics(unittest.TestCase):
     def test_correct_difficulty_determined(self):
         """
         tests if set_difficulty returns 
-        <2 Easy, <7 Normal, >6 Hard
+        <2 Easy, <6 Normal, <8 Picture >7 Hard
         """
         self.assertEqual(run.set_difficulty(0),"Easy")
         self.assertEqual(run.set_difficulty(1),"Easy")
@@ -328,9 +344,12 @@ class testGameMechanics(unittest.TestCase):
         self.assertEqual(run.set_difficulty(3),"Normal")
         self.assertEqual(run.set_difficulty(4),"Normal")
         self.assertEqual(run.set_difficulty(5),"Normal")
-        self.assertEqual(run.set_difficulty(6),"Normal")
-        self.assertEqual(run.set_difficulty(7),"Hard")
+        self.assertEqual(run.set_difficulty(6),"Picture")
+        self.assertEqual(run.set_difficulty(7),"Picture")
         self.assertEqual(run.set_difficulty(8),"Hard")
+        self.assertEqual(run.set_difficulty(9),"Hard")
+        self.assertEqual(run.set_difficulty(10),"Hard")
+        self.assertEqual(run.set_difficulty(11),"Hard")
         
         
         
