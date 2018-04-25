@@ -9,7 +9,7 @@ from io import StringIO
 class testUsernameInput(unittest.TestCase):
     
     @patch("run.set_username" , return_value="Paddy")
-   
+  
     def test_username_is_input(self, input):
         self.assertEqual(run.set_username(), "Paddy")
         
@@ -20,6 +20,22 @@ class testUsernameInput(unittest.TestCase):
     #     test_username = run.set_username()
     #     username_length = len(test_username)
     #     self.assertTrue(username_length != 0)
+    
+    @patch("run.set_multiple_usernames" , return_value="name")
+   
+        
+        
+    def test_username_list_length_of_input(self, input):
+        """
+        tests that set_multiple_usernames returns
+        a list that is the same length as the argument
+        """
+        username_list = run.set_multiple_usernames(4)
+        length_of_list = len(username_list)
+
+        self.assertEqual(length_of_list, 4)
+        
+       
         
    
     

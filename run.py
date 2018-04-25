@@ -21,6 +21,16 @@ def set_username():
         print("Please enter a username")
         print("")
         set_username()
+        
+def set_multiple_usernames(amount):
+    username_list = []
+    for i in range(amount):
+        print("Player {0}".format(i+1))
+        username = set_username()
+        username_list.append(username)
+    return username_list
+    
+
     
              
 def set_difficulty(current_score):
@@ -235,8 +245,7 @@ def sort_scores(scores_tuple_list):
     return sorted_list
     
     
-print(sort_scores(create_scores_tuple_list()))
-    
+
     
     
 
@@ -260,6 +269,8 @@ def play_game():
     print (initial_question)
     
     score = game_rounds(initial_question, lives, score, used_questions)
+    log_score(username, score)
+    sort_scores(create_scores_tuple_list())
              
              
              
