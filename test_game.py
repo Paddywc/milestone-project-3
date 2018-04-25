@@ -152,6 +152,21 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
             answer = entry[1].lower()
             keyword = entry[2]
             self.assertIn(keyword , answer)
+            
+    
+    
+    def test_link_first_picture_value(self):
+        """
+        test to check if every index0 of a picture tuple
+        is a link to the picture file. As both .jpg and
+        .png end in 'g', this should be the last character 
+        """
+        pictures_tuples_list = run.get_picture_tuple_list()
+        for tuple_entry in pictures_tuples_list:
+            first_entry = tuple_entry[0]
+            index_of_last_char = len(first_entry) -1
+            self.assertEqual(first_entry[index_of_last_char], "g")
+    
     
     def test_questions_randomly_selected(self):
         
@@ -164,12 +179,14 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
         
         first_list = []
         second_list = []
+        first_list_used_questions = []
+        second_list_used_questions = []
         
         for i in range(len(questions_list)):
-            first_list.append(run.random_question_tuple("Easy"))
+            first_list.append(run.random_question_tuple("Easy", first_list_used_questions))
         
         for i in range(len(questions_list)):
-            second_list.append(run.random_question_tuple("Easy"))
+            second_list.append(run.random_question_tuple("Easy", second_list_used_questions))
             
         self.assertNotEqual(first_list, second_list)
         
@@ -200,6 +217,22 @@ class testQuestionsAnswersKeyWords(unittest.TestCase):
 
         
         
+      
+    def test_question_is_not_repeated(self):
+        """
+        test to check that an initial question is 
+        not asked again 
+        """
+        used_questions = []
+        initial_question= run.random_question_tuple("Normal", used_questions)
+        subsequent_questions = []
+        for i in range (10):
+            another_question = run.random_question_tuple("Normal", used_questions)
+            subsequent_questions.append(another_question)
+            
+        
+        self.assertTrue(len(subsequent_questions)==10)
+        self.assertNotIn(initial_question, subsequent_questions)
         
         
     
@@ -246,7 +279,9 @@ class testGameMechanics(unittest.TestCase):
         test to check that game_rounds()
         returns false if user has no lives
         """
-        self.assertFalse(run.game_rounds([], 0, "Easy"))
+        used_questions = []
+        initial_question = run.random_question_tuple("Easy", used_questions)
+        self.assertFalse(run.game_rounds(initial_question, 0, 0, used_questions))
         
 
         

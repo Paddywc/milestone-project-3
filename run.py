@@ -51,7 +51,30 @@ def get_questions_answers_keywords(difficulty):
         tuples_list.append((doc_lines[i], doc_lines[i+1], doc_lines[i+2]))
         
 
-    return (tuples_list)
+    return tuples_list
+    
+    
+    
+def get_picture_tuple_list():
+    """
+    returns a list tuple of picture questions
+    each tuple consists of link, question, answer, 
+    keyword
+    """
+    
+    with open("data/pictures.txt") as pictures_doc:
+        pictures_lines = pictures_doc.read().splitlines()
+        
+    pictures_tuples_list = []
+    
+    for i in range(0, len(pictures_lines), 5):
+        pictures_tuples_list.append(("/data/images/{}".format(pictures_lines[i]), pictures_lines[i+1], pictures_lines[i+2], pictures_lines[i+3]))
+    
+    return pictures_tuples_list
+    
+    
+        
+
 
 
 
@@ -154,19 +177,19 @@ def play_game():
     lives = 3
     used_questions = []
     initial_question= random_question_tuple("Easy", used_questions)
+    print (initial_question)
     
     game_rounds(initial_question, lives, score, used_questions)
              
              
              
-play_game()
+# play_game()
 
     
     
     
 
-#game_rounds(random_question_tuple("Easy"), 2, 0)
-   
+
    
       
         

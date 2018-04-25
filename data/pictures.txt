@@ -1,0 +1,44 @@
+fall.jpg
+What word links these images?
+Fall. The season (top-left), waterfall (top-right), rain fall (bottom-left), and the fall of Saddam Hussein.
+fall
+
+moving-bus-puzzle.png
+Can you identify the direction in which this bus is moving; left or right? Hint: The bus is moving on the roads of UK.
+The bus is moving left because we cannot see the door of the bus in this picture.
+left
+
+gears.jpg
+When monkey rotate the gear, which mark will be hit 1 or 2 ?
+2. As we know the gears in contact will always going to rotate in the opposite directions.
+2
+
+spot-the-different-image-puzzle.jpg
+In this image, you can see three almost identical images. Which one is the odd one out?
+Image 2 is different. Look at the eyes.
+2
+
+tiger.jpg
+Things are just as they seem, right? Well, check again. Can you count the number of tigers in this picture ?
+tiger-answer.jpg
+16
+
+how-many-balls.jpg
+Can you count the number of balls in picture below?
+30 (16+9+4+1)
+30
+
+number-of-squares.jpg
+Can you count the number of squares in the figure below
+number-of-squares-answer.jpg
+40
+
+guess-the-parking-number-puzzle.jpg
+Can you find out the number of the parking space in which the car is parked?
+The parking number is 87. You will know why if you invert the image and then see.
+87
+
+missing-letter-grid.png
+If we tell you that there is a relation between the numbers and letters in the given figure, can you analyze it and find the missing letter in the last box ?
+The missing letter in the last box is Z. Denote each alphabet to the corresponding number. For example, A = 1, B = 2, C = 3 and so on. Now you will find that the center digit is actually the product of the alphabets on both sides. In such case, the missing letter is Z. =>G(7) * Z(26) = 182
+z
