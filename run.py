@@ -118,7 +118,6 @@ def check_question_is_original(question_tuple, used_questions):
     checks to see if a question has
     already been asked
     """
-   
         
     if question_tuple not in used_questions:
         used_questions.append(question_tuple)
@@ -133,14 +132,18 @@ def random_question_tuple(difficulty, used_questions):
     returns it if it has not already been asked
     """
     
+    found_original_question = False
     questions_list = get_questions_answers_keywords(difficulty)
-    random_tuple = choice(questions_list)
     
-    if check_question_is_original(random_tuple, used_questions):
-        return random_tuple
-    
-    else:
-        random_question_tuple(difficulty, used_questions)
+    while found_original_question == False:
+        
+        random_tuple = choice(questions_list)
+
+        if check_question_is_original(random_tuple, used_questions):
+            found_original_question = True
+        
+        
+    return random_tuple
         
 
 
@@ -317,7 +320,7 @@ def remove_eliminated_players(gameplay_list):
             
             
         
-    
+
 
         
         
@@ -343,14 +346,22 @@ def play_game():
     sort_scores(create_scores_tuple_list())
              
              
-             
-#play_game()
 
-# log_score("Paddy",6)
-# log_score("Pat",9)
-# log_score("Mike",3)
-
+def play_multiplayer_game(players):
+    usernames = set_multiple_usernames(players)
+    lives =  3
+    score = 0 
+    used_questions = []
     
+    gameplay_lists =create_multiple_users_gameplay_lists(usernames, lives, score)
+    
+    while len(gameplay_lists) > 0:
+        multiplayer_game_rounds(gameplay_lists, used_questions)
+        remove_eliminated_players(gameplay_lists)
+        
+        
+play_multiplayer_game(3)
+        
     
     
 
