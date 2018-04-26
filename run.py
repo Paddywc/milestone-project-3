@@ -291,27 +291,23 @@ def multiplayer_game_rounds(gameplay_list, used_questions):
             print("")
         else:
             player[1] -= 1
-            print("remaining lives: {0}".format(player[1]))
+            print("remaining lives: {0}\n".format(player[1]))
             if player[1] == 0:
-                print("{0} has been eliminated. \nFinal score: {1}".format(player[0], player[2]))
+                print("{0} has been eliminated. \nFinal score: {1}\n".format(player[0], player[2]))
 
             
         
 def remove_eliminated_players(gameplay_list):
     
-    player_removed = False
-    
-    for i in range(len(gameplay_list)-1):
+
+    for player in gameplay_list:
         
-        player_lives = gameplay_list[i][1]
+        player_lives = player[1]
         if player_lives == 0:
-            
-            log_score(gameplay_list[i][0], gameplay_list[i][2])
-            gameplay_list.pop(i)
-            player_removed = True
+            gameplay_list.remove(player)
+            # player_removed = True
     
-    if player_removed:
-        remove_eliminated_players(gameplay_list)
+  
         
     return gameplay_list
             
@@ -349,7 +345,7 @@ def play_game():
 
 def play_multiplayer_game(players):
     usernames = set_multiple_usernames(players)
-    lives =  3
+    lives =  1
     score = 0 
     used_questions = []
     
