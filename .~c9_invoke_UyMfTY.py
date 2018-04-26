@@ -199,18 +199,13 @@ def add_point(score):
     score += 1
     print("Current score: {0}".format(score))
     return score
-    
-
-    
-    
-    
         
 def solo_game_rounds(initial_question, lives, score, used_questions):
     
     
     print("TEST: start of function score: {}".format(score))
     
-    if lives >= 0:
+    if lives > 0:
         
         ask_question(initial_question)
         correct_answer= answer_question(initial_question)
@@ -225,15 +220,15 @@ def solo_game_rounds(initial_question, lives, score, used_questions):
         else:
             lives -= 1
             print("Remaining lives: {}\n".format(lives))
-            if lives > 0: 
+            if lives == 0:
+                return score
+            else:
                 print("Guess again...")
-            score = solo_game_rounds(initial_question, lives, score, used_questions)
+                solo_game_rounds(initial_question, lives, score, used_questions)
 
     
-    else:   
-        return score 
+       
         
-    return score
 
     
     
@@ -278,54 +273,25 @@ def sort_scores(scores_tuple_list):
     return sorted_list
     
     
-def append_with_question_and_last_correct(gameplay_list):
-    """
-    appends each list within gameplay with with an 
-    empty luple and a boolean
-    """
-    for player in gameplay_list:
-        player.append(())
-        player.append(True)
-        
-        
-    
-    
-    
 
         
 def multiplayer_game_rounds(gameplay_list, used_questions):
     
     for player in gameplay_list:
-        
-        print(player)
-        
         difficulty = set_difficulty(player[2])
-        last_question_correct = player[4]
+        print("{0}, it's your turn...".format(player[0]))
+        print("Difficulty: "+ difficulty)
         
-        if last_question_correct:
-            player[3]=random_question_tuple(difficulty, used_questions)
-            
-         
-        if len(gameplay_list)>1:  
-            print("You're up {}".format(player[0]))
-            
-        if not last_question_correct:
-            print("Let's try that again...")
-            
-   
-        
-        
-        ask_question(player[3])
-        correct_answer= answer_question(player[3])
+        question = random_question_tuple(difficulty, used_questions)
+        ask_question(question)
+        correct_answer= answer_question(question)
         if correct_answer:
             print("Well done {0}!".format(player[0]))
-            player[4] = True
             player[2] = add_point(player[2])
             print("")
         else:
             player[1] -= 1
             print("remaining lives: {0}\n".format(player[1]))
-            player[4] = False
             if player[1] == 0:
                 print("{0} has been eliminated. \nFinal score: {1}\n".format(player[0], player[2]))
 
@@ -340,7 +306,6 @@ def remove_eliminated_players(gameplay_list):
         player_lives = player[1]
         if player_lives <= 0:
             gameplay_list.remove(player)
-            log_score(player[0], player[2])
             player_removed = True
             
             
@@ -402,17 +367,16 @@ def remove_eliminated_players(gameplay_list):
         
    
 def play_game(players):
-    lives = 3
-    score = 0
+    lives = 1
+    score = 1
     used_questions = []
-
     
-    if players == 10:
+    if players == 1:
         username = set_username()
         
         initial_question = random_question_tuple("Easy", used_questions)
         score = solo_game_rounds(initial_question, lives, score, used_questions)
-        print ("Score inside play_game function: {}".format(score))
+        sort_scorrrooccss__ttrrooss                
         log_score(username, score)
         scores_tuple_list = create_scores_tuple_list()
         sort_scores(scores_tuple_list)
@@ -420,17 +384,14 @@ def play_game(players):
     else:
         usernames = set_multiple_usernames(players)
         gameplay_lists =create_multiple_users_gameplay_lists(usernames, lives, score)
-        append_with_question_and_last_correct(gameplay_lists)
-        
-
         
         while len(gameplay_lists) > 0:
             multiplayer_game_rounds(gameplay_lists, used_questions)
             remove_eliminated_players(gameplay_lists)
             
         
-# play_game(1)
-play_game(2)
+play_game(1)
+# play_game(2)
 # play_game(4)
     
     

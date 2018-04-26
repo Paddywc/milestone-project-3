@@ -31,3 +31,13 @@ Conal,5
 Ruth,4
 Dexter,5
 Conor,1
+Matt,1
+Tazz,1
+Anna,1
+Bart,2
+Lisa,5
+Tim,0
+Tom,1
+Jerry,2
+Kate,3
+Simon,7
