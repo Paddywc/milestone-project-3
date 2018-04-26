@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask
+from flask import Flask, render_template
 from random import choice
 
 app = Flask(__name__)
@@ -80,7 +80,7 @@ def get_picture_tuple_list():
     pictures_tuples_list = []
     
     for i in range(0, len(pictures_lines), 5):
-        pictures_tuples_list.append(("/data/images/{}".format(pictures_lines[i]), pictures_lines[i+1], pictures_lines[i+2], pictures_lines[i+3]))
+        pictures_tuples_list.append(("/static/img/{}".format(pictures_lines[i]), pictures_lines[i+1], pictures_lines[i+2], pictures_lines[i+3]))
     
     return pictures_tuples_list
     
@@ -311,6 +311,7 @@ def play_game(players):
     lives = 3
     score = 0
     used_questions = []
+    eliminated_players = []
 
     
     
@@ -325,6 +326,13 @@ def play_game(players):
         
     scores_list = create_scores_tuple_list()
     sort_scores(scores_list)
+    
+    
+    
+    
+@app.route('/')
+def index():
+    return render_template("index.html")
         
         
 # play_game(1)
