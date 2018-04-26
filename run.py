@@ -200,10 +200,10 @@ def add_point(score):
     print("Current score: {0}".format(score))
     return score
         
-def game_rounds(initial_question, lives, score, used_questions):
+def solo_game_rounds(initial_question, lives, score, used_questions):
     
     
-    
+    print("TEST: start of function score: {}".format(score))
     
     if lives > 0:
         
@@ -216,16 +216,16 @@ def game_rounds(initial_question, lives, score, used_questions):
             difficulty = set_difficulty(score)
             print("Difficulty: "+ difficulty)
             print("Next question...\n")
-            game_rounds(random_question_tuple(difficulty, used_questions), lives, score, used_questions)
+            solo_game_rounds(random_question_tuple(difficulty, used_questions), lives, score, used_questions)
         else:
             lives -= 1
             print("Remaining lives: {}\n".format(lives))
-            print("Guess again...")
-            game_rounds(initial_question, lives, score, used_questions)
-    
-    else:
-        return score
-    
+            if lives == 0:
+                return score
+            else:
+                print("Guess again...")
+                solo_game_rounds(initial_question, lives, score, used_questions)
+
     
        
         
@@ -332,37 +332,67 @@ def remove_eliminated_players(gameplay_list):
     
             
             
-def play_game():
+# def play_solo_game():
     
-    username=set_username()
+#     username=set_username()
     
-    score = 0
-    lives = 3
-    used_questions = []
-    initial_question= random_question_tuple("Easy", used_questions)
-    # print (initial_question)
+#     score = 0
+#     lives = 3
+#     used_questions = []
+#     initial_question= random_question_tuple("Easy", used_questions)
+#     # print (initial_question)
     
-    score = game_rounds(initial_question, lives, score, used_questions)
-    log_score(username, score)
-    sort_scores(create_scores_tuple_list())
+#     score = solo_game_rounds(initial_question, lives, score, used_questions)
+#     log_score(username, score)
+#     sort_scores(create_scores_tuple_list())
              
-             
+        
+        
+# play_solo_game()     
 
-def play_multiplayer_game(players):
-    usernames = set_multiple_usernames(players)
-    lives =  1
-    score = 0 
+# def play_multiplayer_game(players):
+#     usernames = set_multiple_usernames(players)
+#     lives =  1
+#     score = 0 
+#     used_questions = []
+    
+#     gameplay_lists =create_multiple_users_gameplay_lists(usernames, lives, score)
+    
+#     while len(gameplay_lists) > 0:
+#         multiplayer_game_rounds(gameplay_lists, used_questions)
+#         remove_eliminated_players(gameplay_lists)
+        
+        
+# # play_multiplayer_game(3)
+        
+   
+def play_game(players):
+    lives = 1
+    score = 1
     used_questions = []
     
-    gameplay_lists =create_multiple_users_gameplay_lists(usernames, lives, score)
-    
-    while len(gameplay_lists) > 0:
-        multiplayer_game_rounds(gameplay_lists, used_questions)
-        remove_eliminated_players(gameplay_lists)
+    if players == 1:
+        username = set_username()
         
+        initial_question = random_question_tuple("Easy", used_questions)
+        score = solo_game_rounds(initial_question, lives, score, used_questions)
+        print ("Score inside play_game function: {}".format(score))
+        log_score(username, score)
+        scores_tuple_list = create_scores_tuple_list()
+        sort_scores(scores_tuple_list)
         
-play_multiplayer_game(3)
+    else:
+        usernames = set_multiple_usernames(players)
+        gameplay_lists =create_multiple_users_gameplay_lists(usernames, lives, score)
         
+        while len(gameplay_lists) > 0:
+            multiplayer_game_rounds(gameplay_lists, used_questions)
+            remove_eliminated_players(gameplay_lists)
+            
+        
+play_game(1)
+# play_game(2)
+# play_game(4)
     
     
 

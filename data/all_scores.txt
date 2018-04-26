@@ -5,29 +5,6 @@ Paddy,6
 Pat,9
 Mike,3
 test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-test,5
-dead,5
 should go,1
 dead,5
 should go,1
@@ -52,4 +29,5 @@ Conal,11
 Eoin,2
 Conal,5
 Ruth,4
-Bart,1
+Dexter,5
+Conor,1

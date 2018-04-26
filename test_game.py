@@ -360,7 +360,7 @@ class testGameMechanics(unittest.TestCase):
         """
         used_questions = []
         initial_question = run.random_question_tuple("Easy", used_questions)
-        self.assertFalse(run.game_rounds(initial_question, 0, 0, used_questions))
+        self.assertFalse(run.solo_game_rounds(initial_question, 0, 0, used_questions))
         
 
         
@@ -403,7 +403,7 @@ class testGameMechanics(unittest.TestCase):
         
         
         
-    def test_game_rounds_returns_score(self):
+    def test_solo_game_rounds_returns_score(self):
         """
         tests if game rounds returns the user's
         score
@@ -413,11 +413,11 @@ class testGameMechanics(unittest.TestCase):
         lives = 0
         initial_question= run.random_question_tuple("Normal", used_questions)
         
-        returned_value = run.game_rounds(initial_question, lives, score, used_questions)
+        returned_value = run.solo_game_rounds(initial_question, lives, score, used_questions)
         self.assertEqual(returned_value, score)
         
         score = 3 
-        returned_value = run.game_rounds(initial_question, lives, score, used_questions)
+        returned_value = run.solo_game_rounds(initial_question, lives, score, used_questions)
         self.assertEqual(returned_value, score)
         
     def test_player_eliminated_when_zero_lives(self):
