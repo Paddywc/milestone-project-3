@@ -299,13 +299,18 @@ def multiplayer_game_rounds(gameplay_list, used_questions):
         
 def remove_eliminated_players(gameplay_list):
     
+    player_removed = False
 
     for player in gameplay_list:
         
         player_lives = player[1]
-        if player_lives == 0:
+        if player_lives <= 0:
             gameplay_list.remove(player)
-            # player_removed = True
+            player_removed = True
+            
+            
+    if player_removed:
+        remove_eliminated_players(gameplay_list)
     
   
         
