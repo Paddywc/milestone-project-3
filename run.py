@@ -25,28 +25,26 @@ def set_username():
 def set_multiple_usernames(amount):
     username_list = []
     for i in range(amount):
-        print("Player {0}".format(i+1))
+        if amount > 1:
+            print("Player {0}".format(i+1))
         username = set_username()
         username_list.append(username)
     return username_list
     
     
+
     
-def multiple_users(user_value):
-    if isinstance(user_value, str):
-        return False
-    else:
-        return True
-    
-    
-def create_multiple_users_gameplay_lists(username_list, lives, score):
+def create_gameplay_lists(username_list, lives, score):
     """
     returns a list of lists to be used in gameplay loop
-    each list contains username,lives,score
+    each list contains username,lives,score 
+    and empty string (will be their question in game)
+    and a boleen initially set as True(used to check if their last
+    question was answered correctly )
     """
     gameplay_list = []
     for username in username_list:
-        gameplay_list.append([username, lives, score])
+        gameplay_list.append([username, lives, score, "", True ])
         
     return gameplay_list
 
@@ -205,41 +203,6 @@ def add_point(score):
     
     
         
-def solo_game_rounds(initial_question, lives, score, used_questions):
-    
-    
-    print("TEST: start of function score: {}".format(score))
-    
-    if lives >= 0:
-        
-        ask_question(initial_question)
-        correct_answer= answer_question(initial_question)
-        
-        
-        if correct_answer:
-            score = add_point(score)
-            difficulty = set_difficulty(score)
-            print("Difficulty: "+ difficulty)
-            print("Next question...\n")
-            solo_game_rounds(random_question_tuple(difficulty, used_questions), lives, score, used_questions)
-        else:
-            lives -= 1
-            print("Remaining lives: {}\n".format(lives))
-            if lives > 0: 
-                print("Guess again...")
-            score = solo_game_rounds(initial_question, lives, score, used_questions)
-
-    
-    else:   
-        return score 
-        
-    return score
-
-    
-    
-    
-    
-        
 def log_score(username, score):
     """
     appends all_scores.txt with 'username,score'
@@ -278,22 +241,11 @@ def sort_scores(scores_tuple_list):
     return sorted_list
     
     
-def append_with_question_and_last_correct(gameplay_list):
-    """
-    appends each list within gameplay with with an 
-    empty luple and a boolean
-    """
-    for player in gameplay_list:
-        player.append(())
-        player.append(True)
-        
-        
-    
-    
+
     
 
         
-def multiplayer_game_rounds(gameplay_list, used_questions):
+def game_round(gameplay_list, used_questions):
     
     for player in gameplay_list:
         
@@ -303,7 +255,7 @@ def multiplayer_game_rounds(gameplay_list, used_questions):
         last_question_correct = player[4]
         
         if last_question_correct:
-            player[3]=random_question_tuple(difficulty, used_questions)
+            player[3] = random_question_tuple(difficulty, used_questions)
             
          
         if len(gameplay_list)>1:  
@@ -326,7 +278,7 @@ def multiplayer_game_rounds(gameplay_list, used_questions):
             player[1] -= 1
             print("remaining lives: {0}\n".format(player[1]))
             player[4] = False
-            if player[1] == 0:
+            if player[1] == 0 and len(gameplay_list) > 1:
                 print("{0} has been eliminated. \nFinal score: {1}\n".format(player[0], player[2]))
 
             
@@ -354,52 +306,6 @@ def remove_eliminated_players(gameplay_list):
             
 
             
-            
-        
-
-
-        
-        
-    
-        
-        
-    
-    
-            
-            
-# def play_solo_game():
-    
-#     username=set_username()
-    
-#     score = 0
-#     lives = 3
-#     used_questions = []
-#     initial_question= random_question_tuple("Easy", used_questions)
-#     # print (initial_question)
-    
-#     score = solo_game_rounds(initial_question, lives, score, used_questions)
-#     log_score(username, score)
-#     sort_scores(create_scores_tuple_list())
-             
-        
-        
-# play_solo_game()     
-
-# def play_multiplayer_game(players):
-#     usernames = set_multiple_usernames(players)
-#     lives =  1
-#     score = 0 
-#     used_questions = []
-    
-#     gameplay_lists =create_multiple_users_gameplay_lists(usernames, lives, score)
-    
-#     while len(gameplay_lists) > 0:
-#         multiplayer_game_rounds(gameplay_lists, used_questions)
-#         remove_eliminated_players(gameplay_lists)
-        
-        
-# # play_multiplayer_game(3)
-        
    
 def play_game(players):
     lives = 3
@@ -407,31 +313,23 @@ def play_game(players):
     used_questions = []
 
     
-    if players == 10:
-        username = set_username()
-        
-        initial_question = random_question_tuple("Easy", used_questions)
-        score = solo_game_rounds(initial_question, lives, score, used_questions)
-        print ("Score inside play_game function: {}".format(score))
-        log_score(username, score)
-        scores_tuple_list = create_scores_tuple_list()
-        sort_scores(scores_tuple_list)
-        
-    else:
-        usernames = set_multiple_usernames(players)
-        gameplay_lists =create_multiple_users_gameplay_lists(usernames, lives, score)
-        append_with_question_and_last_correct(gameplay_lists)
-        
+    
+    usernames = set_multiple_usernames(players)
+    gameplay_lists =create_gameplay_lists(usernames, lives, score)
+
 
         
-        while len(gameplay_lists) > 0:
-            multiplayer_game_rounds(gameplay_lists, used_questions)
-            remove_eliminated_players(gameplay_lists)
-            
+    while len(gameplay_lists) > 0:
+        game_round(gameplay_lists, used_questions)
+        remove_eliminated_players(gameplay_lists)
+        
+    scores_list = create_scores_tuple_list()
+    sort_scores(scores_list)
+        
         
 # play_game(1)
-play_game(2)
-# play_game(4)
+# play_game(2)
+# # play_game(4)
     
     
 

@@ -35,17 +35,7 @@ class testUsernames(unittest.TestCase):
 
         self.assertEqual(length_of_list, 4)
         
-    def test_multiple_users_correctly_recognized(self):
-        """
-        test to check if multiple_users returns true
-        when a list of users is entered and false when
-        a string is entered
-        """
-        self.assertFalse(run.multiple_users("Paddy"))
-        self.assertTrue(run.multiple_users(["Paddy", "Wilfred"]))
-     
-        
-   
+
     
 
     
@@ -309,7 +299,7 @@ class testGameMechanics(unittest.TestCase):
         """
         
         username_list= ["John", "Paul", "Ringo", "George"]
-        gameplay_list = run.create_multiple_users_gameplay_lists(username_list, 3 , 0)
+        gameplay_list = run.create_gameplay_lists(username_list, 3 , 0)
         for player in gameplay_list:
             username = player[0]
             lives = player[1]
@@ -353,15 +343,7 @@ class testGameMechanics(unittest.TestCase):
         self.check_answer_framework('AGe', "Correct!")
 
         
-    def test_no_lives_returns_false(self):
-        """
-        test to check that game_rounds()
-        returns false if user has no lives
-        """
-        used_questions = []
-        initial_question = run.random_question_tuple("Easy", used_questions)
-        self.assertFalse(run.solo_game_rounds(initial_question, 0, 0, used_questions))
-        
+
 
         
     def test_add_point_increases_score(self):
@@ -402,24 +384,7 @@ class testGameMechanics(unittest.TestCase):
         
         
         
-        
-    def test_solo_game_rounds_returns_score(self):
-        """
-        tests if game rounds returns the user's
-        score
-        """
-        used_questions = []
-        score = 5
-        lives = 0
-        initial_question= run.random_question_tuple("Normal", used_questions)
-        
-        returned_value = run.solo_game_rounds(initial_question, lives, score, used_questions)
-        self.assertEqual(returned_value, score)
-        
-        score = 3 
-        returned_value = run.solo_game_rounds(initial_question, lives, score, used_questions)
-        self.assertEqual(returned_value, score)
-        
+
     def test_player_eliminated_when_zero_lives(self):
         """
         test to confirm that remove_eliminated_players 
