@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from random import choice
 
 app = Flask(__name__)
@@ -330,11 +330,40 @@ def play_game(players):
     
     
     
-@app.route('/')
-def index():
+# @app.route("/" , methods=["POST", "GET"])
+# def index():
+
+#     # if request.method=="POST":
+#     #     players = request.args.get("players")
+#     #     # request.args('players', "one")
+#     #     return render_template("players-{0}.html".format(players))
+    
+    # return render_template("index.html")
+    
+    
+@app.route("/" , methods=["POST", "GET"])
+def start_game():
+    if request.method=="POST":
+        players = request.args.get("players")
+        return redirect(url_for("/play/{}".format(players)))
+    
+       
     return render_template("index.html")
+    
+@app.route("/play/<players>" , methods=["POST", "GET"])
+def play(players):
+    players = players
+    return render_template("players-{0}.html".format(players))
+    
+
+    
+
+   
         
         
+        
+        
+
 # play_game(1)
 # play_game(2)
 # # play_game(4)

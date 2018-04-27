@@ -2,4 +2,32 @@
 
 <h1>Riddle-Me-This???</h1>
 
+<!--Form for selecting number of players and starting game
+ taken from Bootstrap-->
+
+
+
+<form>
+    <div class="form-group row">
+        <label for="1players" class= "col-form-label">Select Number of Players: </label>
+    <div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="players" id="1Players" value="one" checked>
+  <label class="form-check-label" for="1Players">1</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="players" id="2Players" value="two">
+  <label class="form-check-label" for="2Players">2</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="players" id="3Players" value="three" >
+  <label class="form-check-label" for="3Players">3</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="players" id="4Players" value="four" >
+  <label class="form-check-label" for="4Players">4</label>
+</div>
+  <button type="submit" id="start-game-button" class="btn btn-primary mb-2" value="submit">Start Game</button>
+
+    </div>
+</form>
 {% endblock %}
