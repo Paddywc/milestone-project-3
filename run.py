@@ -327,17 +327,25 @@ def play_game(players):
     scores_list = create_scores_tuple_list()
     sort_scores(scores_list)
     
-    
+
+
+def get_round_text():
+    round_text = []
+    with open("game_text.txt", "r") as game_text:
+        round_text=  game_text.readlines()
+    print(round_text)
+    return round_text
     
 @app.route("/" , methods=["POST", "GET"])
 def index():
 
     if request.method=="GET":
+        round_text = get_round_text()
         players = request.args.get("players")
         if players == None:
             return render_template("index.html")
         else:
-            return render_template("players-{0}.html".format(players))
+            return render_template("players-{0}.html".format(players), round_text = round_text)
     
        
 

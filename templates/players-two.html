@@ -1,7 +1,14 @@
 {% extends 'base.html' %} {% block content %}
 <h1>2 Player Game</h1>
 
-<h2 class="main-text">  </h2>
+{% for text_line in round_text %}
+
+<h2 class="main-text">
+    {{ text_line }}
+</h2>
+
+{% endfor %}
+
 
 <div class="row">
     <div class="col-xs-12 col-md-12">
