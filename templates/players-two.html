@@ -9,11 +9,13 @@
 
 {% endfor %}
 
-
 <div class="row">
-    <div class="col-xs-12 col-md-12">
-        <textarea id="input-answer" name="answer" placeholder="Your answer .."></textarea>
-    </div>
-    <button type="submit" class="btn btn-warning">Submit</button>
+    <form method="POST">
+
+        <div class="col-xs-12 col-md-12">
+        
+            <input type="text" id="input-answer" name="answer" placeholder="Your answer ..">
+        </div>
+    </form>
 </div>
 {% endblock %}

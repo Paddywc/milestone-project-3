@@ -336,7 +336,7 @@ def get_round_text():
     print(round_text)
     return round_text
     
-@app.route("/" , methods=["POST", "GET"])
+@app.route("/" , methods=["GET"])
 def index():
 
     if request.method=="GET":
@@ -347,6 +347,12 @@ def index():
         else:
             return render_template("players-{0}.html".format(players), round_text = round_text)
     
+@app.route("/" , methods=["POST"])
+def submit_response():
+    answer = request.form["answer"]
+    return answer
+
+       
        
 
    
