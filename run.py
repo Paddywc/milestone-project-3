@@ -14,6 +14,7 @@ def set_username():
     sets the user's username
     """
     username = input("Please enter your desired username: ")
+    username = request.form["answer"]
     if len(username) > 0:
         print("Hello "+ username)
         return(username)
@@ -336,6 +337,12 @@ def get_round_text():
     print(round_text)
     return round_text
     
+def wipe_game_text():
+    f = open("game_text.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    
 @app.route("/" , methods=["GET"])
 def index():
 
@@ -349,8 +356,16 @@ def index():
     
 @app.route("/" , methods=["POST"])
 def submit_response():
-    answer = request.form["answer"]
-    return answer
+    
+    usernames = []
+    for i in range(2):
+        usernames.append(set_username())
+    return str(usernames)
+    # answer = request.form["answer"]
+    # answer2 = request.form["answer2"]
+    # username_list = set_multiple_usernames(2)
+    # for user in username_list:
+    #     return user
 
        
        
