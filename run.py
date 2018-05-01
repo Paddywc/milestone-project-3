@@ -332,13 +332,13 @@ def play_game(players):
 
 def get_round_text():
     round_text = []
-    with open("game_text.txt", "r") as game_text:
+    with open("active-game-files/game_text.txt", "r") as game_text:
         round_text=  game_text.readlines()
     print(round_text)
     return round_text
     
 def wipe_game_text():
-    f = open("game_text.txt", "r+")
+    f = open("active-game-files/game_text.txt", "r+")
     f.truncate()
     f.close()
     
