@@ -14,7 +14,7 @@ def set_username():
     sets the user's username
     """
     username = input("Please enter your desired username: ")
-    username = request.form["answer"]
+    # username = request.form["answer"]
     if len(username) > 0:
         print("Hello "+ username)
         return(username)
@@ -360,7 +360,21 @@ def index():
             
 @app.route("/setusernames/<players>" , methods=["POST", "GET"])
 def set_username_page(players):
-    players = players
+    
+    
+
+    players = int(players)
+
+    player_list = []
+    if request.method=="POST":
+        for i in range(players):
+            i_string = str(i)
+            username = request.form["player-{0}-username".format(i+1)]
+            player_list.append(username)
+        return str(player_list)
+    
+    
+
     return render_template("players-{}-usernames.html".format(players))
     
     
