@@ -370,7 +370,18 @@ def set_username_page(players):
         for i in range(players):
             i_string = str(i)
             username = request.form["player-{0}-username".format(i+1)]
-            player_list.append(username)
+            player_object = {
+                "username" : username,
+                "lives" : 3,
+                "score" : 0,
+                "question": "",
+                "last question correct": True
+            }
+            player_list.append(player_object)
+            
+        with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
+            json.dump(player_list, json_data)
+        
         return str(player_list)
     
     
