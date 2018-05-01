@@ -28,6 +28,10 @@ def add_game_text(content):
     with open("active-game-files/game_text.txt", "a") as game_text:
         game_text.writelines(content + "\n")
         
+def dump_data(player_list):
+    with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
+            json.dump(player_list, json_data)
+        
     
 
 def set_username():
@@ -274,8 +278,12 @@ def set_new_chosen_player(game_data, previous_player_index):
     
     if previous_player_index < number_of_players-1:
         game_data[previous_player_index + 1]["turn"] = True
+        print("did this work?")
     else:
         game_data[0]["turn"] = True
+        
+        
+    dump_data(game_data)
         
     return game_data
         
@@ -296,27 +304,47 @@ def select_player(game_data):
             
             
     set_new_chosen_player(game_data, index_of_chosen_player)
+    dump_data(game_data)
     return chosen_player
             
+def return_player_to_game_data(player_to_return, game_data):
+    
+    for player in game_data:
+        if player["username"] == player_to_return["username"]:
+            player = player_to_return
             
+    return game_data
+    
         
 
     
 def render_game_round(game_data, used_questions):
     
+    wipe_game_text()
+    player = select_player(game_data)
+    add_game_text("You're up {0}".format(player["username"]))
+    difficulty = set_difficulty(player["score"])
+    
+    player["question"] = random_question_tuple(difficulty, used_questions)
+    
+    ask_question(player["question"])
+    
+    answer_question(player["question"])
+    
+    return_player_to_game_data(player, game_data)
     
     
-    for player in game_data:
+    # for player in game_data:
         
-        score = player["score"]
-        add_game_text("You're up: {0}".format(player["username"]))
-        difficulty = set_difficulty(score)
+    #     score = player["score"]
+    #     add_game_text("You're up: {0}".format(player["username"]))
+    #     difficulty = set_difficulty(score)
         
-        player["question"] = random_question_tuple("Easy", used_questions)
+    #     player["question"] = random_question_tuple("Easy", used_questions)
         
-        ask_question(player.get("question"))
+    #     ask_question(player.get("question"))
         
-        return render_template("game.html", game_data = game_data,)
+    #     return render_template("game.html", game_data = game_data,)
 
 
         
@@ -443,8 +471,7 @@ def set_username_page(players):
         
         
         player_list[0]["turn"] = True  
-        with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
-            json.dump(player_list, json_data)
+        dump_data(player_list)
         
         return redirect("/game")
     
