@@ -390,14 +390,15 @@ def set_username_page(players):
 
     return render_template("players-{}-usernames.html".format(players))
     
-@app.route("/game" , methods=["GET"])
-def render_game():
+@app.route("/game" , methods=["GET" , "POST"])
+def render_game(used_questions = []):
     round_text = get_round_text()
     with open("active-game-files/players.json", "r") as json_file:
         json_data =  json.load(json_file)
     # original_json_data = requests.get("/active-game-files/players.json")
     # json_data = json.loads(original_json_data)
-    col_size = 12/len(json_data)
+    players = len(json_data)
+    col_size = 12/players
     return render_template("game.html", game_data = json_data, col_size = col_size, round_text = round_text)
     
     
