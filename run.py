@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from flask import Flask, render_template, request, redirect, url_for
 from random import choice
 
@@ -375,18 +376,43 @@ def set_username_page(players):
                 "lives" : 3,
                 "score" : 0,
                 "question": "",
-                "last question correct": True
+                "last question correct": True,
+                "turn" : False
             }
             player_list.append(player_object)
             
         with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
             json.dump(player_list, json_data)
         
-        return str(player_list)
+        return redirect("/game")
     
     
 
     return render_template("players-{}-usernames.html".format(players))
+    
+@app.route("/game" , methods=["GET"])
+def render_game():
+    round_text = get_round_text()
+    with open("active-game-files/players.json", "r") as json_file:
+        json_data =  json.load(json_file)
+    # original_json_data = requests.get("/active-game-files/players.json")
+    # json_data = json.loads(original_json_data)
+    col_size = 12/len(json_data)
+    return render_template("game.html", game_data = json_data, col_size = col_size, round_text = round_text)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 # @app.route("/" , methods=["POST"])

@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block content %}
+<h1>PLAYGAME</h1>
+
+{% for text_line in round_text %}
+
+<h2 class="main-text">
+    {{ text_line }}
+</h2>
+
+{% endfor %}
+
+
+<footer>
+<div class="container-fluid">
+    <div class="row">
+        {% for player in game_data %}
+        
+        <div class="col col-{{ col_size }}">
+            <h3>{{ player.username}}</h3>
+            <h4>score: {{ player.score }}</h4>
+            <h4>lives: {{ player.lives }}</h4>
+        </div>
+        
+        {% endfor %} 
+        
+    </div>
+</div>
+
+</footer>
+
+
+
+<!--<div class="row">-->
+<!--    <form method="POST">-->
+
+<!--        <div class="col-xs-12 col-md-12">-->
+<!--            <input type="text" id="player-1-username" name="player-1-username" placeholder="Player 1 username ...">-->
+<!--            <input type="text" id="player-2-username" name="player-2-username" placeholder="Player 2 username ...">-->
+<!--            <button type="submit" class="btn">Start Game</button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+{% endblock %}
