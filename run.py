@@ -267,24 +267,56 @@ def sort_scores(scores_tuple_list):
     return sorted_list
     
     
+def set_new_chosen_player(game_data, previous_player_index):
+    
+    number_of_players = len(game_data)
+    new_player = {}
+    
+    if previous_player_index < number_of_players-1:
+        game_data[previous_player_index + 1]["turn"] = True
+    else:
+        game_data[0]["turn"] = True
+        
+    return game_data
+        
+        
+
+    
+
+def select_player(game_data):
+    
+    chosen_player = {}
+    index_of_chosen_player = 0
+
+    for player in (game_data):
+        if player["turn"] == True:
+            chosen_player = player
+            player["turn"] = False
+            index_of_chosen_player = game_data.index(player)
+            
+            
+    set_new_chosen_player(game_data, index_of_chosen_player)
+    return chosen_player
+            
+            
+        
 
     
 def render_game_round(game_data, used_questions):
     
-    difficulty = ""
-    wipe_game_text()
+    
     
     for player in game_data:
         
         score = player["score"]
-        add_game_text("You're up: {0}".format(player["username"])
+        add_game_text("You're up: {0}".format(player["username"]))
         difficulty = set_difficulty(score)
         
         player["question"] = random_question_tuple("Easy", used_questions)
         
         ask_question(player.get("question"))
         
-    return render_template("game.html", game_data = json_data, col_size = col_size, round_text = round_text)
+        return render_template("game.html", game_data = game_data,)
 
 
         
@@ -408,7 +440,9 @@ def set_username_page(players):
                 "turn" : False
             }
             player_list.append(player_object)
-            
+        
+        
+        player_list[0]["turn"] = True  
         with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
             json.dump(player_list, json_data)
         
