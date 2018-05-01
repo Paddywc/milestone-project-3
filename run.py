@@ -343,6 +343,9 @@ def wipe_game_text():
     f.close()
     
     
+
+
+    
 @app.route("/" , methods=["GET"])
 def index():
 
@@ -352,19 +355,26 @@ def index():
         if players == None:
             return render_template("index.html")
         else:
-            return render_template("players-{0}.html".format(players), round_text = round_text)
+            return redirect("/setusernames/{}".format(players))
+            
+            
+@app.route("/setusernames/<players>" , methods=["POST", "GET"])
+def set_username_page(players):
+    players = players
+    return render_template("players-{}-usernames.html".format(players))
     
-@app.route("/" , methods=["POST"])
-def submit_response():
     
-    usernames = []
-    for i in range(2):
-        usernames.append(set_username())
-    return str(usernames)
-    # answer = request.form["answer"]
-    # answer2 = request.form["answer2"]
-    # username_list = set_multiple_usernames(2)
-    # for user in username_list:
+# @app.route("/" , methods=["POST"])
+# def submit_response():
+    
+#     usernames = []
+#     for i in range(2):
+#         usernames.append(set_username())
+#     return str(usernames)
+#     # answer = request.form["answer"]
+#     # answer2 = request.form["answer2"]
+#     # username_list = set_multiple_usernames(2)
+#     # for user in username_list:
     #     return user
 
        
@@ -422,11 +432,6 @@ if __name__ == '__main__':
     
        
 #     return render_template("index.html")
-    
-# @app.route("/play/<players>" , methods=["POST", "GET"])
-# def play(players):
-#     players = players
-#     return render_template("players-{0}.html".format(players))
     
 
     
