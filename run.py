@@ -31,6 +31,11 @@ def add_game_text(content):
 def dump_data(player_list):
     with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
             json.dump(player_list, json_data)
+            
+def get_json_data():
+    with open("active-game-files/players.json", "r") as json_file:
+        json_data =  json.load(json_file)
+        return json_data
         
     
 
@@ -304,6 +309,7 @@ def select_player(game_data):
             
             
     set_new_chosen_player(game_data, index_of_chosen_player)
+    
     dump_data(game_data)
     return chosen_player
             
@@ -332,6 +338,8 @@ def render_game_round(game_data, used_questions):
     answer_question(player["question"])
     
     return_player_to_game_data(player, game_data)
+    
+    dump_data(game_data)
     
     
     # for player in game_data:
@@ -482,14 +490,17 @@ def set_username_page(players):
 @app.route("/game" , methods=["GET" , "POST"])
 def render_game(used_questions = []):
     round_text = get_round_text()
-    with open("active-game-files/players.json", "r") as json_file:
-        json_data =  json.load(json_file)
+    
+    
+    json_data = get_json_data()
+    
     # original_json_data = requests.get("/active-game-files/players.json")
     # json_data = json.loads(original_json_data)
     players = len(json_data)
     col_size = 12/players
     
     if request.method == "POST":
+        json_data = get_json_data()
         render_game_round(json_data, used_questions)
     
     return render_template("game.html", game_data = json_data, col_size = col_size, round_text = round_text)
