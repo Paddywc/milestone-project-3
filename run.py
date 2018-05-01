@@ -173,7 +173,8 @@ def answer_question(question):
     asks user for an answer and
     check if it contains the keyword
     """
-    user_answer = input(">> Your answer: ")
+    # user_answer = input(">> Your answer: ")
+    user_answer = request.form["answer"]
     lower_user_answer = user_answer.lower()
     user_answer_list = lower_user_answer.split()
     
@@ -343,7 +344,13 @@ def wipe_game_text():
     f.truncate()
     f.close()
     
+def add_game_text(content):
+    with open("active-game-files/game_text.txt", "a") as game_text:
+        game_text.writelines(content + "\n")
+        
     
+add_game_text("Is this added?")
+add_game_text("is this a new line?")
 
 
     
