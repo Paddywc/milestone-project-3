@@ -10,6 +10,26 @@ app.secret_key = 'some_secret'
 
 username = "default"
 
+
+
+def get_round_text():
+    round_text = []
+    with open("active-game-files/game_text.txt", "r") as game_text:
+        round_text=  game_text.readlines()
+    print(round_text)
+    return round_text
+    
+def wipe_game_text():
+    f = open("active-game-files/game_text.txt", "r+")
+    f.truncate()
+    f.close()
+    
+def add_game_text(content):
+    with open("active-game-files/game_text.txt", "a") as game_text:
+        game_text.writelines(content + "\n")
+        
+    
+
 def set_username():
     """
     sets the user's username
@@ -167,6 +187,7 @@ def ask_question(question):
         print (question[1])
     else:
         print(question[0])
+        add_game_text(question[0])
     
 def answer_question(question):
     """
@@ -185,9 +206,11 @@ def answer_question(question):
     
     if keyword in user_answer_list:
         print("Correct!")
+        add_game_text("Correct!")
         return True
     else:
-        print("Wrong!")
+        print("Incorrect")
+        add_game_text("Incorrect!")
         return False
         
         
@@ -246,6 +269,23 @@ def sort_scores(scores_tuple_list):
     
 
     
+def render_game_round(game_data, used_questions):
+    
+    difficulty = ""
+    wipe_game_text()
+    
+    for player in game_data:
+        
+        score = player["score"]
+        add_game_text("You're up: {0}".format(player["username"])
+        difficulty = set_difficulty(score)
+        
+        player["question"] = random_question_tuple("Easy", used_questions)
+        
+        ask_question(player.get("question"))
+        
+    return render_template("game.html", game_data = json_data, col_size = col_size, round_text = round_text)
+
 
         
 def game_round(gameplay_list, used_questions):
@@ -332,25 +372,6 @@ def play_game(players):
     
 
 
-def get_round_text():
-    round_text = []
-    with open("active-game-files/game_text.txt", "r") as game_text:
-        round_text=  game_text.readlines()
-    print(round_text)
-    return round_text
-    
-def wipe_game_text():
-    f = open("active-game-files/game_text.txt", "r+")
-    f.truncate()
-    f.close()
-    
-def add_game_text(content):
-    with open("active-game-files/game_text.txt", "a") as game_text:
-        game_text.writelines(content + "\n")
-        
-    
-add_game_text("Is this added?")
-add_game_text("is this a new line?")
 
 
     
@@ -406,6 +427,10 @@ def render_game(used_questions = []):
     # json_data = json.loads(original_json_data)
     players = len(json_data)
     col_size = 12/players
+    
+    if request.method == "POST":
+        render_game_round(json_data, used_questions)
+    
     return render_template("game.html", game_data = json_data, col_size = col_size, round_text = round_text)
     
     
