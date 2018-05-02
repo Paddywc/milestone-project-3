@@ -16,7 +16,6 @@ def get_round_text():
     round_text = []
     with open("active-game-files/game_text.txt", "r") as game_text:
         round_text=  game_text.readlines()
-    # print(round_text)
     return round_text
     
 def wipe_game_text():
@@ -201,22 +200,32 @@ def ask_question(player):
         add_game_text(question[0])
         
         
-def answer_question(question):
-    """
-    asks user for an answer and
-    check if it contains the keyword
-    """
-    # user_answer = input(">> Your answer: ")
+def get_user_answer(player, game_data):
+    
+    question = player["question"]
     user_answer = request.form["answer"]
     lower_user_answer = user_answer.lower()
     user_answer_list = lower_user_answer.split()
+    
+    player["answer"] = user_answer_list
+    
+    return_player_to_game_data(player, game_data)
+    dump_data(game_data)
+    return game_data
+    
+def check_user_answer(player, game_data):
+    question = player["question"]
+    answer = player["answer"]
+    
     
     if question_is_picture_question(question):
         keyword = question[3]
     else:
         keyword = question[2]
+        
+    print("keyword: " + keyword)
     
-    if keyword in user_answer_list:
+    if keyword in answer:
         print("Correct!")
         add_game_text("Correct!")
         return True
@@ -224,6 +233,50 @@ def answer_question(question):
         print("Incorrect")
         add_game_text("Incorrect!")
         return False
+    
+        
+    
+
+
+    
+    
+    
+# def answer_question(player, game_data):
+#     """
+#     asks user for an answer and
+#     check if it contains the keyword
+#     """
+#     question = player["question"]
+    
+#     print("question: {0}".format(str(question)))
+    
+#     # user_answer = input(">> Your answer: ")
+#     user_answer = request.form["answer"]
+#     lower_user_answer = user_answer.lower()
+#     user_answer_list = lower_user_answer.split()
+    
+#     player["answer"] = user_answer_list
+    
+    
+#     return_player_to_game_data(player, game_data)
+    
+    
+    
+#     if question_is_picture_question(question):
+#         keyword = question[3]
+#     else:
+#         keyword = question[2]
+        
+#     print("keyword: " + keyword)
+    
+#     if keyword in user_answer_list:
+#         print("Correct!")
+#         add_game_text("Correct!")
+#         return True
+#     else:
+#         print("Incorrect")
+#         add_game_text("Incorrect!")
+#         return False
         
         
 
@@ -279,68 +332,22 @@ def sort_scores(scores_tuple_list):
     return sorted_list
     
     
-    
-def set_previous_player(game_data, previous_player_index):
-    
-    for player in game_data:
-        player["previous"] = False
-        
-    game_data[previous_player_index]["previous"] = True
-    
-    dump_data(game_data)
-    return game_data
-    
-    
-def get_previous_player():
-    
-    game_data = get_json_data()
-    
-    previous_player = {}
-    
-    for player in game_data:
-        if player["previous"] == True:
-            previous_player = player
-        
-    return previous_player
-        
-    
-    
-    
-def set_new_chosen_and_previous_player(game_data):
+def set_new_chosen_player(game_data, previous_player_index):
     
     number_of_players = len(game_data)
     new_player = {}
     
-    player_index = 0
-    
-    for player in game_data:
-        player["previous"] = False
-    
-    for player in game_data:
-        if player["turn"] == True:
-            player["previous"] = True
-            player_index = game_data.index(player)
-            player["turn"] = False
-            
-            
-    if player_index < number_of_players-1:
-        game_data[player_index +1]["turn"] = True
-        
+    if previous_player_index == 999:
+        game_data[0]["turn"] = True
+    elif previous_player_index < number_of_players-1:
+        game_data[previous_player_index + 1]["turn"] = True
     else:
         game_data[0]["turn"] = True
         
+        
     dump_data(game_data)
-    
-    # if previous_player_index < number_of_players-1:
-    #     game_data[previous_player_index + 1]["turn"] = True
-    # else:
-    #     game_data[0]["turn"] = True
         
-    # set_previous_player(game_data, previous_player_index)
-        
-    # dump_data(game_data)
-        
-    # return game_data
+    return game_data
         
         
 
@@ -349,20 +356,25 @@ def set_new_chosen_and_previous_player(game_data):
 def select_player(game_data):
     
     chosen_player = {}
-    index_of_chosen_player = 0
-    
-    set_new_chosen_and_previous_player(game_data)
-
+    index_of_chosen_player = 999
+    found_player = False
 
     for player in (game_data):
         if player["turn"] == True:
             chosen_player = player
-            # player["turn"] = False
-            # index_of_chosen_player = game_data.index(player)
-            
-            
+            player["turn"] = False
+            index_of_chosen_player = game_data.index(player)
+            found_player = True
     
-    print("player inside select_player = {}".format(chosen_player["username"]))
+    
+    
+            
+            
+    set_new_chosen_player(game_data, index_of_chosen_player)
+    if index_of_chosen_player == 999:
+        return select_player(game_data)
+    
+    dump_data(game_data)
     return chosen_player
             
 def return_player_to_game_data(player_to_return, game_data):
@@ -375,53 +387,25 @@ def return_player_to_game_data(player_to_return, game_data):
     
         
 
-
-
-
-def set_user_answer(player, game_data):
-  
+def render_ask_question(player, game_data, used_questions):
     
-    user_answer = request.form["answer"]
-    lower_user_answer = user_answer.lower()
-    user_answer_list = lower_user_answer.split()
-    
-    player["answer"] = user_answer_list
-    
-    return_player_to_game_data(player, game_data)
-    dump_data(game_data)
-    return game_data
-    
-    
-def check_user_answer(player, game_data):
-    question = player["question"]
-    answer = player["answer"]
-    
-    
-    if question_is_picture_question(question):
-        keyword = question[3]
-    else:
-        keyword = question[2]
-        
-    if keyword in answer:
-        print("Correct!")
-        add_game_text("Correct!")
-        return True
-    else:
-        print("Incorrect")
-        add_game_text("Incorrect!")
-        return False
-        
-        
-        
-def set_player_question(player, game_data, used_questions):
-    
+    wipe_game_text()
+    add_game_text("You're up {0}".format(player["username"]))
     difficulty = set_difficulty(player["score"])
-    player["question"] = random_question_tuple(difficulty, used_questions)
     
-    print("question inside set player question {0}. username: {1}".format(player["question"], player["username"]))
+    player["question"] = random_question_tuple(difficulty, used_questions)
+    ask_question(player)
+    return_player_to_game_data(player, game_data)
+    dump_data(game_data)
+    return player
+    
+    
+def render_answer_question(player, game_data, used_questions):
+    answer_question(player, game_data)
     return_player_to_game_data(player, game_data)
     dump_data(game_data)
     
+
     
     
     
@@ -429,14 +413,15 @@ def set_player_question(player, game_data, used_questions):
     
 #     wipe_game_text()
 #     player = select_player(game_data)
+    
 #     add_game_text("You're up {0}".format(player["username"]))
 #     difficulty = set_difficulty(player["score"])
     
 #     player["question"] = random_question_tuple(difficulty, used_questions)
     
-#     ask_question(player["question"])
+#     ask_question(player)
     
-#     answer_question(player["question"])
+#     answer_question(player, game_data)
     
 #     return_player_to_game_data(player, game_data)
     
@@ -542,20 +527,7 @@ def remove_eliminated_players(gameplay_list):
 
 
 
-def is_first_round(game_data):
-    
-    
-    first_round = True
-    for player in game_data:
-        if player["previous"]==True:
-            first_round = False
-            
-            
-            
-    
-    return first_round
-    
-    
+
     
 @app.route("/" , methods=["GET"])
 def index():
@@ -588,17 +560,9 @@ def set_username_page(players):
                 "question": "",
                 "last question correct": True,
                 "turn" : False,
-                "previous": False,
                 "answer": ""
             }
             player_list.append(player_object)
-            
-        # initial_player = player_list[0]
-        # initial_player["turn"] = True
-        used_questions = []
-        # set_player_question(initial_player, player_list, used_questions)
-        
-        # return_player_to_game_data(initial_player, player_list)
         
         
         dump_data(player_list)
@@ -611,63 +575,29 @@ def set_username_page(players):
     
 @app.route("/game" , methods=["GET" , "POST"])
 def render_game(used_questions = []):
+ 
+    json_data = get_json_data()
+    player = select_player(json_data)
     
-    wipe_game_text()
-
-    player = {}
-    previous_player = {}
+    print("player: {0}".format(player["username"]))
     
-    game_data = get_json_data()
-    
-    
-    players = len(game_data)
+    # original_json_data = requests.get("/active-game-files/players.json")
+    # json_data = json.loads(original_json_data)
+    players = len(json_data)
     col_size = 12/players
-    
-    
-    if is_first_round(game_data):
-       game_data[0]["turn"] = True
-       
-       dump_data(game_data)
-       
-       player = game_data[0]
-       set_player_question(player, game_data, used_questions)
+    # render_game_round(json_data, used_questions)
 
-       ask_question(player)
-       
+    render_ask_question(player, json_data, used_questions)
+    round_text = get_round_text()
+    # print("render game round text:" + str(round_text))
     
     if request.method == "POST":
+        print("request method player: {0}".format(player))
+        get_user_answer(player, json_data)
+        json_data = get_json_data()
+        check_user_answer(player, json_data)
         
-        print("does this ever run?")
-        player = select_player(game_data)
-        previous_player = get_previous_player()
-        print("player: {}".format(player["username"]))
-        print("previous_player: {}".format(player["username"]))
-        
-        set_user_answer(previous_player, game_data)
-        game_data = get_json_data()
-        check_user_answer(previous_player, game_data)
-        
-        set_player_question(player, game_data, used_questions)
-        ask_question(player)
-    
-    round_text = get_round_text()
-
-        
-        
-    return render_template("game.html", game_data = game_data, col_size = col_size, round_text = round_text)
-
-        
-        
-        
-    
-        
-       
-      
-          
-
-    
-    
-    
+    return render_template("game.html", game_data = json_data, col_size = col_size, round_text = round_text)
     
     
     

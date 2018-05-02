@@ -469,4 +469,17 @@ class testLeaderboards(unittest.TestCase):
         
         
         
-  
+# class testRenderGame(unittest.TestCase):
+    
+#     def test_get_answer_adds_answer_value(self):
+#         """
+#         test to check that  get_user_answer adds an 
+#         answer to the player dictionary entered in the 
+#         parameter
+#         """
+#         game_data = run.get_json_data()
+#         player = game_data[0]
+#         self.assertEqual(player["answer"] , "")
+        
+        
+        
