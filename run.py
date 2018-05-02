@@ -37,6 +37,36 @@ def get_json_data():
         json_data =  json.load(json_file)
         return json_data
         
+        
+def return_player_to_game_data(player_to_return):
+    game_data = get_json_data()
+    
+    player_index = 999
+    
+    for player in game_data:
+        if player["username"] == player_to_return["username"]:
+            
+            player_index = game_data.index(player)
+            
+    game_data[player_index] = player_to_return
+            
+            
+    print(str(game_data))
+            
+    dump_data(game_data)
+    return game_data
+    
+    
+def get_current_player():
+    
+    current_player = {}
+    game_data = get_json_data()
+    
+    for player in game_data:
+        if player["turn"] == True:
+            current_player = player
+            
+    return current_player
     
 
 def set_username():
@@ -187,11 +217,15 @@ def question_is_picture_question(question):
         return False
     
 
-def ask_question(player):
+def ask_question():
     """
     asks question to the user
     """
-    question = player["question"]
+    
+    current_player = get_current_player()
+            
+    
+    question = current_player["question"]
     if question_is_picture_question(question): 
         print("remain for testing")
         # print (question[0])
@@ -306,10 +340,11 @@ def get_previous_player():
     
     
     
-def set_new_chosen_and_previous_player(game_data):
+def set_new_chosen_and_previous_player():
+    
+    game_data = get_json_data()
     
     number_of_players = len(game_data)
-    new_player = {}
     
     player_index = 0
     
@@ -351,7 +386,7 @@ def select_player(game_data):
     chosen_player = {}
     index_of_chosen_player = 0
     
-    set_new_chosen_and_previous_player(game_data)
+    set_new_chosen_and_previous_player()
 
 
     for player in (game_data):
@@ -365,17 +400,22 @@ def select_player(game_data):
     print("player inside select_player = {}".format(chosen_player["username"]))
     return chosen_player
             
-def return_player_to_game_data(player_to_return, game_data):
-    
-    for player in game_data:
-        if player["username"] == player_to_return["username"]:
-            player = player_to_return
-            
-    return game_data
+
     
         
 
+def set_previous_answer():
 
+    user_answer = request.form["answer"]
+    lower_user_answer = user_answer.lower()
+    user_answer_list = lower_user_answer.split()
+    
+    previous_player = get_previous_player()
+    previous_player["answer"] = user_answer_list
+    print("previous_player answer: {0}".format(str(previous_player["answer"])))
+    
+    return_player_to_game_data(previous_player)
+    
 
 
 def set_user_answer(player, game_data):
@@ -387,10 +427,35 @@ def set_user_answer(player, game_data):
     
     player["answer"] = user_answer_list
     
-    return_player_to_game_data(player, game_data)
+    return_player_to_game_data(player)
     dump_data(game_data)
     return game_data
     
+def check_previous_player_answer():
+    
+    previous_player = get_previous_player()
+    answer = previous_player["answer"]
+    print(" CHECK previous_player answer: {0}".format(str(previous_player["answer"])))
+
+    question = previous_player["question"]
+    
+    
+    if question_is_picture_question(question):
+        keyword = question[3]
+    else:
+        keyword = question[2]
+        
+    if keyword in answer:
+        print("Correct!")
+        add_game_text("Correct!")
+        return True
+    else:
+        print("Incorrect")
+        add_game_text("Incorrect!")
+        return False
+        
+
+        
     
 def check_user_answer(player, game_data):
     question = player["question"]
@@ -413,16 +478,18 @@ def check_user_answer(player, game_data):
         
         
         
-def set_player_question(player, game_data, used_questions):
+def set_player_question():
     
-    difficulty = set_difficulty(player["score"])
-    player["question"] = random_question_tuple(difficulty, used_questions)
+    current_player = get_current_player()
+            
+    difficulty = set_difficulty(current_player["score"])
     
-    print("question inside set player question {0}. username: {1}".format(player["question"], player["username"]))
-    return_player_to_game_data(player, game_data)
-    dump_data(game_data)
+    used_questions = []
     
+    current_player["question"] = random_question_tuple(difficulty, used_questions)
     
+    return_player_to_game_data(current_player)
+
     
     
 # def render_game_round(game_data, used_questions):
@@ -555,6 +622,13 @@ def is_first_round(game_data):
     
     return first_round
     
+def initial_player():
+    game_data = get_json_data()
+    game_data[0]["turn"] = True
+    
+    dump_data(game_data)
+
+    
     
     
 @app.route("/" , methods=["GET"])
@@ -629,26 +703,21 @@ def render_game(used_questions = []):
        
        dump_data(game_data)
        
-       player = game_data[0]
-       set_player_question(player, game_data, used_questions)
+       set_player_question()
 
-       ask_question(player)
+       ask_question()
        
     
     if request.method == "POST":
         
-        print("does this ever run?")
-        player = select_player(game_data)
-        previous_player = get_previous_player()
-        print("player: {}".format(player["username"]))
-        print("previous_player: {}".format(player["username"]))
+        set_new_chosen_and_previous_player()
         
-        set_user_answer(previous_player, game_data)
-        game_data = get_json_data()
-        check_user_answer(previous_player, game_data)
         
-        set_player_question(player, game_data, used_questions)
-        ask_question(player)
+        set_previous_answer()
+        check_previous_player_answer()
+        
+        set_player_question()
+        ask_question()
     
     round_text = get_round_text()
 
