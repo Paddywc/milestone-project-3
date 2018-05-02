@@ -51,7 +51,6 @@ def return_player_to_game_data(player_to_return):
     game_data[player_index] = player_to_return
             
             
-    print(str(game_data))
             
     dump_data(game_data)
     return game_data
@@ -684,7 +683,32 @@ def initial_player():
     game_data[0]["turn"] = True
     
     dump_data(game_data)
+    
+    
+def eliminate_dead_players():
+    
+    game_data = get_json_data()
+    
 
+    player_index = 999
+    
+    for player in game_data:
+        if player["lives"] <= 0:
+            player_index = game_data.index(player)
+            add_game_text("{} has been eliminated ".format(player["username"]))
+            
+            
+    if player_index != 999:
+        game_data.pop(player_index)
+        dump_data(game_data)
+        eliminate_dead_players()
+        
+            
+            
+            
+    dump_data(game_data)
+    return game_data
+    
     
     
     
@@ -745,9 +769,6 @@ def render_game():
     
     wipe_game_text()
 
-    player = {}
-    previous_player = {}
-    
     game_data = get_json_data()
     
     
@@ -755,19 +776,11 @@ def render_game():
     col_size = 12/players
     
     
-    if is_first_round(game_data):
-       
-       
-       initialize_used_question()
-       game_data[0]["turn"] = True
-       
-       dump_data(game_data)
-       
-       set_player_question()
-
-       ask_question()
-       
     
+    
+    
+    
+       
     if request.method == "POST":
         
         set_new_chosen_and_previous_player()
@@ -779,7 +792,26 @@ def render_game():
         set_player_question()
         ask_question()
     
+    game_data = get_json_data()
+        
+        
+    if is_first_round(game_data):
+       
+       
+       initialize_used_question()
+       game_data[0]["turn"] = True
+       
+       dump_data(game_data)
+       
+       set_player_question()
+
+       ask_question()
+    
+       
+    
+    eliminate_dead_players()
     round_text = get_round_text()
+    game_data = get_json_data()
 
         
         
