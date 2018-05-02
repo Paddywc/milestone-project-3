@@ -1,2 +1,4 @@
-<h2>You're up meg</h2>
-What word begins and ends with an 'E' but only has one letter?
+<h3 class='incorrect'>Incorrect!</h3>
+<h2 class = 'host'>You're up Ironman</h2>
+<h2 class = question> What is it that has a bottom at the top of them? </h2>
+<h3 class = 'elimination'>Ironman has been eliminated </h3>

@@ -272,18 +272,21 @@ def ask_question():
     """
     
     current_player = get_current_player()
-    question_text = ("<h2>You're up {}</h2>".format(current_player["username"]))
+    question_text = ("<h2 class = 'host'>You're up {}</h2>".format(current_player["username"]))
     add_game_text(question_text)
             
     
     question = current_player["question"]
+    
     if question_is_picture_question(question): 
         print("remain for testing")
-        # print (question[0])
-        # print (question[1])
+        img_text = "<img src ='{}'>".format(question[0])
+        print(img_text)
+        add_game_text(img_text)
+        add_game_text("<h2 class = question> {0} </h2>".format(question[1]))
     else:
         # print(question[0])
-        add_game_text(question[0])
+        add_game_text("<h2 class = question> {0} </h2>".format(question[0]))
         
         
 def answer_question(question):
@@ -498,11 +501,11 @@ def check_previous_player_answer():
         
     if keyword in answer:
         print("Correct!")
-        add_game_text("Correct!")
+        add_game_text("<h3 class='correct'>Correct! </h3>")
         return True
     else:
         print("Incorrect")
-        add_game_text("Incorrect!")
+        add_game_text("<h3 class='incorrect'>Incorrect!</h3>")
         return False
         
 
@@ -707,7 +710,7 @@ def eliminate_dead_players():
         if player["lives"] <= 0:
             add_to_leaderboard(player)
             player_index = game_data.index(player)
-            add_game_text("{} has been eliminated ".format(player["username"]))
+            add_game_text("<h3 class = 'elimination'>{} has been eliminated </h3>".format(player["username"]))
             
             
     if player_index != 999:
