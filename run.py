@@ -170,20 +170,60 @@ def get_questions_answers_keywords(difficulty):
         return tuples_list
     
     
+def get_used_questions():
     
+    with open("active-game-files/used_questions.json", "r") as f:
+        used_questions = json.load(f)
+        return used_questions
+        
+        
+def initialize_used_question():
     
-def check_question_is_original(question_tuple, used_questions):
+    question_list = []
+    question_list.append({"question": "sameple_question"})
+    
+    with open("active-game-files/used_questions.json", mode="w", encoding="utf-8") as f:
+        json.dump(question_list, f)
+        
+def add_to_used_questions(question, used_questions):
+    
+    used_questions.append({"question" : question[0]})
+    
+    with open("active-game-files/used_questions.json", mode="w", encoding="utf-8") as f:
+            json.dump(used_questions, f)
+            
+
+    
+def check_question_is_original(question_tuple):
     """
     checks to see if a question has
     already been asked
     """
-        
-    if question_tuple not in used_questions:
-        used_questions.append(question_tuple)
-        return used_questions
     
-    else:
+    used_questions = get_used_questions()
+    
+    original_question = True
+    
+    for question in used_questions:
+        if question["question"] == question_tuple[0]:
+            original_question = False
+            
+            
+    if not original_question:
         return False
+        
+    else:
+        add_to_used_questions(question_tuple, used_questions)
+        return True
+        
+            
+
+    # if question_tuple not in used_questions:
+    #     add_question_to_used_questions(question_tuple)
+    #     return used_questions
+    
+    # else:
+    #     return False
 
 def random_question_tuple(difficulty, used_questions):
     """
@@ -198,7 +238,7 @@ def random_question_tuple(difficulty, used_questions):
         
         random_tuple = choice(questions_list)
 
-        if check_question_is_original(random_tuple, used_questions):
+        if check_question_is_original(random_tuple):
             found_original_question = True
         
         
@@ -684,7 +724,7 @@ def set_username_page(players):
     return render_template("players-{}-usernames.html".format(players))
     
 @app.route("/game" , methods=["GET" , "POST"])
-def render_game(used_questions = []):
+def render_game():
     
     wipe_game_text()
 
@@ -699,6 +739,9 @@ def render_game(used_questions = []):
     
     
     if is_first_round(game_data):
+       
+       
+       initialize_used_question()
        game_data[0]["turn"] = True
        
        dump_data(game_data)
