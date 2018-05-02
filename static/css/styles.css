@@ -1,0 +1,33 @@
+main {
+    height: 75vh;
+}
+
+footer {
+    height: 15vh;
+}
+
+
+.host{
+    font-size: 40px;
+    color: yellow
+}
+
+.question{
+    font-size:40px;
+    color: blue;
+}
+
+.eliminated {
+    font-size: 50px;
+    color: red;
+}
+
+.correct {
+    font-size: 30px;
+    color: green;
+}
+
+.incorrect {
+    font-size: 30px;
+    color: blue;
+}

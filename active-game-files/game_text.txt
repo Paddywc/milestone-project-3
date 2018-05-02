@@ -1,4 +1,3 @@
-<h3 class='incorrect'>Incorrect!</h3>
-<h2 class = 'host'>You're up Ironman</h2>
-<h2 class = question> What is it that has a bottom at the top of them? </h2>
-<h3 class = 'elimination'>Ironman has been eliminated </h3>
+<h3 class='correct'>Correct! </h3>
+<h2 class = 'host'>You're up Bill</h2>
+<h2 class ='question'> What five-letter word becomes shorter when you add two letters to it? </h2>

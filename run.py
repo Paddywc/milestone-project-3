@@ -283,10 +283,10 @@ def ask_question():
         img_text = "<img src ='{}'>".format(question[0])
         print(img_text)
         add_game_text(img_text)
-        add_game_text("<h2 class = question> {0} </h2>".format(question[1]))
+        add_game_text("<h2 class ='question'> {0} </h2>".format(question[1]))
     else:
         # print(question[0])
-        add_game_text("<h2 class = question> {0} </h2>".format(question[0]))
+        add_game_text("<h2 class ='question'> {0} </h2>".format(question[0]))
         
         
 def answer_question(question):

@@ -1,1 +1,1 @@
-[]
+[{"previous": false, "lives": 3, "last question correct": true, "username": "Bill", "question": ["What five-letter word becomes shorter when you add two letters to it?", "Short", "short"], "score": 1, "answer": ["a", "battery"], "turn": true}, {"previous": true, "lives": 3, "last question correct": true, "username": "Ben", "question": ["What word begins and ends with an 'E' but only has one letter?", "Envelope", "envelope"], "score": 1, "answer": ["envelope"], "turn": false}]
