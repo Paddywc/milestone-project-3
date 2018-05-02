@@ -272,7 +272,8 @@ def ask_question():
     """
     
     current_player = get_current_player()
-    add_game_text("You're up {}".format(current_player["username"]))
+    question_text = ("<h2>You're up {}</h2>".format(current_player["username"]))
+    add_game_text(question_text)
             
     
     question = current_player["question"]

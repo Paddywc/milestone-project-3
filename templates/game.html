@@ -3,9 +3,9 @@
 
 {% for text_line in round_text %}
 
-<h2 class="main-text">
-    {{ text_line }}
-</h2>
+<!--<h2 class="main-text">-->
+    {{ text_line|safe }}
+<!--</h2>-->
 
 {% endfor %}
 
