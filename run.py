@@ -38,6 +38,16 @@ def get_json_data():
         return json_data
         
         
+def get_leaderboard_data():
+    with open("data/high_scores.json", "r") as f:
+        leaderboard_data =  json.load(f)
+        return leaderboard_data
+        
+def post_leaderboard_data(leaderboard_data):
+    with open("data/high_scores.json", mode="w", encoding="utf-8") as f:
+            json.dump(leaderboard_data, f)
+        
+        
 def return_player_to_game_data(player_to_return):
     game_data = get_json_data()
     
@@ -694,6 +704,7 @@ def eliminate_dead_players():
     
     for player in game_data:
         if player["lives"] <= 0:
+            add_to_leaderboard(player)
             player_index = game_data.index(player)
             add_game_text("{} has been eliminated ".format(player["username"]))
             
@@ -708,6 +719,27 @@ def eliminate_dead_players():
             
     dump_data(game_data)
     return game_data
+    
+    
+def add_to_leaderboard(player):
+    
+    username = player["username"]
+    score = player["score"]
+    
+    saved_score = {username: score}
+    
+    
+    leaderboard_data = get_leaderboard_data()
+    
+    leaderboard_data.append(saved_score)
+    
+    post_leaderboard_data(leaderboard_data)
+    
+    
+    
+    
+    
+    
     
     
     
