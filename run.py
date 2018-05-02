@@ -263,6 +263,7 @@ def ask_question():
     """
     
     current_player = get_current_player()
+    add_game_text("You're up {}".format(current_player["username"]))
             
     
     question = current_player["question"]
@@ -600,7 +601,21 @@ def set_player_question():
 #             if player[1] == 0 and len(gameplay_list) > 1:
 #                 print("{0} has been eliminated. \nFinal score: {1}\n".format(player[0], player[2]))
 
-            
+
+
+def update_lives_and_score(correct):
+    
+    previous_player = get_previous_player()
+    
+    if correct:
+        previous_player["score"] += 1
+    else:
+        previous_player["lives"]  -= 1
+        
+    return_player_to_game_data(previous_player)
+    
+    
+    
         
 def remove_eliminated_players(gameplay_list):
     
@@ -621,6 +636,8 @@ def remove_eliminated_players(gameplay_list):
   
         
     return gameplay_list
+            
+            
             
             
 
@@ -757,8 +774,8 @@ def render_game():
         
         
         set_previous_answer()
-        check_previous_player_answer()
-        
+        was_correct = check_previous_player_answer()
+        update_lives_and_score(was_correct)
         set_player_question()
         ask_question()
     
