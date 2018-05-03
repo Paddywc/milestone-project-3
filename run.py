@@ -41,9 +41,16 @@ def add_incorrect_text(text):
     return incorrect_text
     
     
+def add_incorrect_guesses_text(player):
+    if len(player["incorrect guesses"]) > 0:
+        text_to_write = "<p id='guesses'> <span id='guesses-title'>Incorrect Guesses: </span> {0}".format(player["incorrect guesses"])
+        add_game_text(text_to_write)
+        
+    
+    
 def add_eliminated_text(player):
     username= player["username"]
-    add_game_text("<h3 class = 'elimination'>{} has been eliminated </h3>".format(username))
+    add_game_text("<h3 class = 'eliminated'>{} has been eliminated </h3>".format(username))
 
 def add_question_text(question):
     add_game_text("<h2 class ='question'> {0} </h2>".format(question))
@@ -519,12 +526,34 @@ def set_user_answer(player, game_data):
     dump_data(game_data)
     return game_data
     
+def append_and_return_incorrect_guesses_string(player):
+    
+    print("before IG: {0}".format(player["incorrect guesses"]))
+    incorrect_guesses = player["incorrect guesses"]
+    print("incorrect guesses: {0}".format(incorrect_guesses))
+    last_guess = player["answer"]
+    
+    last_guess_string = " ".join(str(word) for word in last_guess)
+    new_text = "{0}<br>{1}".format(incorrect_guesses, last_guess_string)
+    print(new_text)
+    return new_text
+    
+
+    
+    
+    
+    
+    
+    
+    
 def check_previous_player_answer():
     
     previous_player = get_previous_player()
     answer = previous_player["answer"]
 
     question = previous_player["question"]
+    
+    print("inside check prev player {0}".format(previous_player["incorrect guesses"]))
     
     
     if question_is_picture_question(question):
@@ -536,12 +565,14 @@ def check_previous_player_answer():
         print("Correct!")
         add_correct_text("Correct!")
         previous_player["last question correct"] = True
+        previous_player["incorrect guesses"] = ""
         return_player_to_game_data(previous_player)
         return True
     else:
         print("Wrong!")
         add_incorrect_text("Incorrect")
         previous_player["last question correct"] = False
+        previous_player["incorrect guesses"] = append_and_return_incorrect_guesses_string(previous_player)
         return_player_to_game_data(previous_player)
         return False
         
@@ -576,6 +607,9 @@ def set_player_question():
     if current_player["last question correct"] == True:
         difficulty = set_difficulty(current_player["score"])
         current_player["question"] = random_question_tuple(difficulty)
+        
+    else: 
+        add_incorrect_guesses_text(current_player)
     
     return_player_to_game_data(current_player)
 
@@ -776,7 +810,7 @@ def add_to_leaderboard(player):
     
     
     
-    
+
     
     
 def all_players_gone():
@@ -824,7 +858,8 @@ def set_username_page(players):
                 "turn" : False,
                 "previous": False,
                 "answer": "",
-                "no": i+1
+                "no": i+1,
+                "incorrect guesses": ""
             }
             player_list.append(player_object)
             

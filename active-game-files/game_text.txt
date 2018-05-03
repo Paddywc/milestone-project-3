@@ -1,1 +1,4 @@
-<h2 class='game-over-test'>Game Over</h2>
+<h3 class='incorrect'>Incorrect</h3>
+<h2 class = 'host'>You're up Garfunkel</h2>
+<h2 class ='question'> What has to be broken before you can use it? </h2>
+<h3 class = 'elimination'>Simon has been eliminated </h3>
