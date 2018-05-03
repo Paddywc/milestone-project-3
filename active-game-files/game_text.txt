@@ -1,3 +1,2 @@
-<h3 class='correct'>Correct!</h3>
-<h2 class = 'host'>You're up Cremen</h2>
-<h2 class ='question'> What has a neck but no head? </h2>
+<h2 class = 'host'>You're up Mike</h2>
+<h2 class ='question'> You can break me easily without even touching me or seeing me. What am I? </h2>

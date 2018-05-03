@@ -31,3 +31,20 @@ footer {
     font-size: 30px;
     color: blue;
 }
+
+
+#player-1-card{
+    background-color: blue
+}
+
+#player-2-card{
+    background-color:red;
+}
+
+#player-3-card{
+    background-color: yellow;
+}
+
+#player-4-card{
+    background-color: green;
+}

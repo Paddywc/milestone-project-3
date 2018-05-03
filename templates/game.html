@@ -1,34 +1,39 @@
 {% extends 'base.html' %} {% block content %}
 <main>
-{% for text_line in round_text %}
+    {% for text_line in round_text %}
 
-<!--<h2 class="main-text">-->
+    <!--<h2 class="main-text">-->
     {{ text_line|safe }}
-<!--</h2>-->
+    <!--</h2>-->
 
-{% endfor %}
+    {% endfor %}
 
 
-<form method = "POST">
- <input type="text" id="answer" name="answer" placeholder="Your answer...">
+    <form method="POST">
+        <input type="text" id="answer" name="answer" placeholder="Your answer...">
 
-</form>
+    </form>
 </main>
 <footer>
-<div class="container-fluid">
-    <div class="row">
-        {% for player in game_data %}
-        
-        <div class="col col-{{ col_size }}">
-            <h3>{{ player.username}}</h3>
-            <h4>score: {{ player.score }}</h4>
-            <h4>lives: {{ player.lives }}</h4>
+    <div class="container-fluid">
+        <div class="row">
+            {% for player in game_data %}
+
+            <div class="col col-{{ col_size }}">
+                <div class="card" id="player-{{ player.no }}-card">
+                    <h5 class="card-title">{{ player.username}}</h5>
+                    <div class="card-body">
+
+                        <p class="card-text score-text">score: {{ player.score }}</p>
+                        <p class="card-text lives-text">lives: {{ player.lives }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
         </div>
-        
-        {% endfor %} 
-        
     </div>
-</div>
 
 </footer>
 

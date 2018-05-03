@@ -293,8 +293,12 @@ def ask_question():
     """
     
     current_player = get_current_player()
-    question_text = ("<h2 class = 'host'>You're up {}</h2>".format(current_player["username"]))
-    add_game_text(question_text)
+    game_data = get_json_data()
+    number_of_players = len(game_data)
+    
+    if number_of_players > 1:
+        host_text = ("<h2 class = 'host'>You're up {}</h2>".format(current_player["username"]))
+        add_game_text(host_text)
             
     
     question = current_player["question"]
@@ -800,7 +804,8 @@ def set_username_page(players):
                 "last question correct": True,
                 "turn" : False,
                 "previous": False,
-                "answer": ""
+                "answer": "",
+                "no": i+1
             }
             player_list.append(player_object)
             
