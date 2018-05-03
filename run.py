@@ -46,7 +46,18 @@ def add_incorrect_guesses_text(player):
         text_to_write = "<p id='guesses'> <span id='guesses-title'>Incorrect Guesses: </span> {0}".format(player["incorrect guesses"])
         add_game_text(text_to_write)
         
+def add_host_text(text):
+    add_game_text("<h2 class='host'>{0}</h2>".format(text))
+        
+def add_correct_answer_text(player):
+    question_tuple = player["question"]
+    correct_answer = ""
+    if question_is_picture_question(question_tuple):
+        correct_answer = question_tuple[2]
+    else: 
+        correct_answer = question_tuple[1]
     
+    add_game_text("<p id ='correct-answer'> The correct answer was: {0} </p>".format(correct_answer))
     
 def add_eliminated_text(player):
     username= player["username"]
@@ -315,16 +326,18 @@ def ask_question():
     number_of_players = len(game_data)
     
     if number_of_players > 1:
-        host_text = ("<h2 class = 'host'>You're up {}</h2>".format(current_player["username"]))
-        add_game_text(host_text)
+        add_host_text("You're up {}".format(current_player["username"]))
+        
+        
+    if not last_question_correct(current_player):
+        add_host_text("Let's try that again...")
+        add_incorrect_guesses_text(current_player)
             
     
     question = current_player["question"]
     
     if question_is_picture_question(question): 
-        print("remain for testing")
         img_text = "<img src ='{}'>".format(question[0])
-        print(img_text)
         add_game_text(img_text)
         add_question_text(question[1])
     else:
@@ -600,16 +613,28 @@ def check_user_answer(player, game_data):
         
         
         
+        
+def last_question_correct(player):
+    
+    
+    if player["last question correct"] == True:
+        return True
+        
+    else:
+        return False
+    
+    
+    
+    
 def set_player_question():
     
     current_player = get_current_player()
     
-    if current_player["last question correct"] == True:
+    if last_question_correct(current_player):
         difficulty = set_difficulty(current_player["score"])
         current_player["question"] = random_question_tuple(difficulty)
         
-    else: 
-        add_incorrect_guesses_text(current_player)
+    
     
     return_player_to_game_data(current_player)
 
@@ -753,7 +778,7 @@ def is_first_round(game_data):
     
     first_round = True
     for player in game_data:
-        if player["previous"]==True:
+        if player["previous"]==True and player["turn"]==False:
             first_round = False
             
             
@@ -767,6 +792,8 @@ def initial_player():
     
     dump_data(game_data)
     
+
+    
     
 def eliminate_dead_players():
     
@@ -775,20 +802,27 @@ def eliminate_dead_players():
 
     player_index = 999
     
+    eliminated_player = {}
+    
     for player in game_data:
         if player["lives"] <= 0:
             add_to_leaderboard(player)
             player_index = game_data.index(player)
             add_eliminated_text(player)
+            add_correct_answer_text(player)
+            
+            eliminated_player= player
+            
             
     if player_index != 999:
         game_data.pop(player_index)
         dump_data(game_data)
-        eliminate_dead_players()
+        return eliminated_player
         
+
             
             
-            
+
     dump_data(game_data)
     return game_data
     
@@ -852,7 +886,7 @@ def set_username_page(players):
             player_object = {
                 "username" : username,
                 "lives" : 3,
-                "score" : 4,
+                "score" : 2,
                 "question": "",
                 "last question correct": True,
                 "turn" : False,
@@ -902,6 +936,8 @@ def render_game():
     players = len(game_data)
     col_size = 12/players
     
+    eliminated_player= {}
+    
     
     if request.method == "POST":
         
@@ -911,15 +947,14 @@ def render_game():
         set_previous_answer()
         was_correct = check_previous_player_answer()
         update_lives_and_score(was_correct)
+        eliminated_player = eliminate_dead_players()
         set_player_question()
         ask_question()
     
-    game_data = get_json_data()
-        
-        
-    if is_first_round(game_data):
-       
-       
+        game_data = get_json_data()
+    else:
+           
+       print("first round running")
        initialize_used_question()
        game_data[0]["turn"] = True
        
@@ -929,14 +964,17 @@ def render_game():
 
        ask_question()
     
+        
+        
+
        
     
-    eliminate_dead_players()
 
     round_text = get_round_text()
     if all_players_gone():
         wipe_game_text()
         add_game_over_text()
+        add_correct_answer_text(eliminated_player)
         round_text = get_round_text()
         leaderboard_data = get_sorted_scores()
     
