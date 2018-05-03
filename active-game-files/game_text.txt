@@ -1,2 +1,1 @@
-<h2 class = 'host'>You're up Mike</h2>
-<h2 class ='question'> You can break me easily without even touching me or seeing me. What am I? </h2>
+<h2 class='game-over-test'>Game Over</h2>

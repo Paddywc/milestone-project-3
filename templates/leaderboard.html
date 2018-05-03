@@ -1,0 +1,36 @@
+{% extends 'base.html' %}  {% block content %}
+
+
+<main>
+
+
+    {% for text_line in round_text %}
+
+    <!--<h2 class="main-text">-->
+    {{ text_line|safe }}
+    <!--</h2>-->
+
+    {% endfor %}
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Username</th>
+            <th scope="col">Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(30) %}
+        <tr>
+            <th scope="row">{{ i+1 }}</th>
+            <td>{{ leaderboard_data[i]["username"] }}</td>
+            <td>{{ leaderboard_data[i]["score"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</main>
+{% endblock %}

@@ -36,7 +36,7 @@ def add_correct_text(text):
     return correct_text
     
 def add_incorrect_text(text):
-    incorrect_text="<h3 class='incorrect'>{}</h3".format(text)
+    incorrect_text="<h3 class='incorrect'>{}</h3>".format(text)
     add_game_text(incorrect_text)
     return incorrect_text
     
@@ -67,6 +67,17 @@ def get_leaderboard_data():
 def post_leaderboard_data(leaderboard_data):
     with open("data/high_scores.json", mode="w", encoding="utf-8") as f:
             json.dump(leaderboard_data, f)
+            
+            
+def add_game_over_text():
+    add_game_text("<h2 class='game-over-test'>Game Over</h2>")
+            
+            
+def get_sorted_scores():
+    # https://stackoverflow.com/questions/72899/how-do-i-sort-a-list-of-dictionaries-by-values-of-the-dictionary-in-python
+    leaderboard_data = get_leaderboard_data()
+    sorted_data = sorted(leaderboard_data, reverse=True, key=lambda k: k["score"])
+    return sorted_data
         
         
 def return_player_to_game_data(player_to_return):
@@ -75,7 +86,7 @@ def return_player_to_game_data(player_to_return):
     player_index = 999
     
     for player in game_data:
-        if player["username"] == player_to_return["username"]:
+        if player["no"] == player_to_return["no"]:
             
             player_index = game_data.index(player)
             
@@ -752,7 +763,7 @@ def add_to_leaderboard(player):
     username = player["username"]
     score = player["score"]
     
-    saved_score = {username: score}
+    saved_score = {"username": username, "score": score}
     
     
     leaderboard_data = get_leaderboard_data()
@@ -767,7 +778,14 @@ def add_to_leaderboard(player):
     
     
     
+def all_players_gone():
+    game_data = get_json_data()
     
+    print(len(game_data))
+    if len(game_data)>0:
+        return False
+    else:
+        return True
     
     
 @app.route("/" , methods=["GET"])
@@ -798,8 +816,8 @@ def set_username_page(players):
             username = request.form["player-{0}-username".format(i+1)]
             player_object = {
                 "username" : username,
-                "lives" : 3,
-                "score" : 0,
+                "lives" : 1,
+                "score" : 5,
                 "question": "",
                 "last question correct": True,
                 "turn" : False,
@@ -824,6 +842,19 @@ def set_username_page(players):
     
 
     return render_template("usernames.html", players=players)
+    
+    
+@app.route("/leaderboard")
+def show_leaderboard():
+    
+    leaderboard_data = get_sorted_scores()
+    
+    return render_template("leaderboard.html", leaderboard_data = leaderboard_data)
+    
+    
+    
+    
+    
     
 @app.route("/game" , methods=["GET" , "POST"])
 def render_game():
@@ -871,6 +902,17 @@ def render_game():
        
     
     eliminate_dead_players()
+
+    round_text = get_round_text()
+    if all_players_gone():
+        wipe_game_text()
+        add_game_over_text()
+        round_text = get_round_text()
+        leaderboard_data = get_sorted_scores()
+    
+        return render_template("leaderboard.html", leaderboard_data = leaderboard_data, round_text=round_text)
+        
+        
     round_text = get_round_text()
     game_data = get_json_data()
 
@@ -882,7 +924,7 @@ def render_game():
         
         
     
-        
+
        
       
           
