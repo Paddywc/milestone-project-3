@@ -28,6 +28,27 @@ def add_game_text(content):
     with open("active-game-files/game_text.txt", "a") as game_text:
         game_text.writelines(content + "\n")
         
+
+
+def add_correct_text(text):
+    correct_text = "<h3 class='correct'>{}</h3>".format(text)
+    add_game_text(correct_text)
+    return correct_text
+    
+def add_incorrect_text(text):
+    incorrect_text="<h3 class='incorrect'>{}</h3".format(text)
+    add_game_text(incorrect_text)
+    return incorrect_text
+    
+    
+def add_eliminated_text(player):
+    username= player["username"]
+    add_game_text("<h3 class = 'elimination'>{} has been eliminated </h3>".format(username))
+
+def add_question_text(question):
+    add_game_text("<h2 class ='question'> {0} </h2>".format(question))
+
+        
 def dump_data(player_list):
     with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
             json.dump(player_list, json_data)
@@ -283,10 +304,10 @@ def ask_question():
         img_text = "<img src ='{}'>".format(question[0])
         print(img_text)
         add_game_text(img_text)
-        add_game_text("<h2 class ='question'> {0} </h2>".format(question[1]))
+        add_question_text(question[1])
     else:
         # print(question[0])
-        add_game_text("<h2 class ='question'> {0} </h2>".format(question[0]))
+        add_question_text(question[0])
         
         
 def answer_question(question):
@@ -451,7 +472,6 @@ def select_player(game_data):
             
             
     
-    print("player inside select_player = {}".format(chosen_player["username"]))
     return chosen_player
             
 
@@ -466,8 +486,7 @@ def set_previous_answer():
     
     previous_player = get_previous_player()
     previous_player["answer"] = user_answer_list
-    print("previous_player answer: {0}".format(str(previous_player["answer"])))
-    
+
     return_player_to_game_data(previous_player)
     
 
@@ -501,11 +520,11 @@ def check_previous_player_answer():
         
     if keyword in answer:
         print("Correct!")
-        add_game_text("<h3 class='correct'>Correct! </h3>")
+        add_correct_text("Correct!")
         return True
     else:
-        print("Incorrect")
-        add_game_text("<h3 class='incorrect'>Incorrect!</h3>")
+        print("Wrong!")
+        add_incorrect_text("Incorrect")
         return False
         
 
@@ -710,8 +729,7 @@ def eliminate_dead_players():
         if player["lives"] <= 0:
             add_to_leaderboard(player)
             player_index = game_data.index(player)
-            add_game_text("<h3 class = 'elimination'>{} has been eliminated </h3>".format(player["username"]))
-            
+            add_eliminated_text(player)
             
     if player_index != 999:
         game_data.pop(player_index)
