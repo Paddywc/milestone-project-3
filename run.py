@@ -760,6 +760,8 @@ def index():
             return redirect("/setusernames/{}".format(players))
             
             
+
+            
 @app.route("/setusernames/<players>" , methods=["POST", "GET"])
 def set_username_page(players):
     
@@ -798,7 +800,7 @@ def set_username_page(players):
     
     
 
-    return render_template("players-{}-usernames.html".format(players))
+    return render_template("usernames.html", players=players)
     
 @app.route("/game" , methods=["GET" , "POST"])
 def render_game():

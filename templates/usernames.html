@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Set usernames</h1>
+
+
+
+
+<div class="row">
+    <form method="POST">
+        <div class="col-xs-12 col-md-12">
+            {% for i in range(players) %}
+            <input type="text" id="player-{{ i+1 }}-username" name="player-{{ i+1 }}-username" placeholder="Player {{ i+1 }} username ..."> 
+            {% endfor %}
+            <button type="submit" class="btn">Start Game</button>
+
+    </form>
+    </div>
+{% endblock %}
