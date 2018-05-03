@@ -266,7 +266,7 @@ def check_question_is_original(question_tuple):
     # else:
     #     return False
 
-def random_question_tuple(difficulty, used_questions):
+def random_question_tuple(difficulty):
     """
     selects a random tuple from the tuples list
     returns it if it has not already been asked
@@ -523,7 +523,6 @@ def check_previous_player_answer():
     
     previous_player = get_previous_player()
     answer = previous_player["answer"]
-    print(" CHECK previous_player answer: {0}".format(str(previous_player["answer"])))
 
     question = previous_player["question"]
     
@@ -536,10 +535,14 @@ def check_previous_player_answer():
     if keyword in answer:
         print("Correct!")
         add_correct_text("Correct!")
+        previous_player["last question correct"] = True
+        return_player_to_game_data(previous_player)
         return True
     else:
         print("Wrong!")
         add_incorrect_text("Incorrect")
+        previous_player["last question correct"] = False
+        return_player_to_game_data(previous_player)
         return False
         
 
@@ -569,12 +572,10 @@ def check_user_answer(player, game_data):
 def set_player_question():
     
     current_player = get_current_player()
-            
-    difficulty = set_difficulty(current_player["score"])
     
-    used_questions = []
-    
-    current_player["question"] = random_question_tuple(difficulty, used_questions)
+    if current_player["last question correct"] == True:
+        difficulty = set_difficulty(current_player["score"])
+        current_player["question"] = random_question_tuple(difficulty)
     
     return_player_to_game_data(current_player)
 
@@ -816,8 +817,8 @@ def set_username_page(players):
             username = request.form["player-{0}-username".format(i+1)]
             player_object = {
                 "username" : username,
-                "lives" : 1,
-                "score" : 5,
+                "lives" : 3,
+                "score" : 4,
                 "question": "",
                 "last question correct": True,
                 "turn" : False,
@@ -863,16 +864,10 @@ def render_game():
 
     game_data = get_json_data()
     
-    
     players = len(game_data)
     col_size = 12/players
     
     
-    
-    
-    
-    
-       
     if request.method == "POST":
         
         set_new_chosen_and_previous_player()
