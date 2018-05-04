@@ -17,6 +17,16 @@ footer {
     color: blue;
 }
 
+.answer{
+
+color: purple;    
+
+}
+
+.guesses{
+    color: pink;
+}
+
 .eliminated {
     font-size: 50px;
     color: red;

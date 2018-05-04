@@ -12,15 +12,37 @@ username = "default"
 
 
 
-def get_round_text():
-    round_text = []
-    with open("active-game-files/game_text.txt", "r") as game_text:
-        round_text=  game_text.readlines()
-    # print(round_text)
-    return round_text
-    
+
 def wipe_game_text():
-    f = open("active-game-files/game_text.txt", "r+")
+    f = open("active-game-files/game_over.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    f = open("active-game-files/eliminated.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    f = open("active-game-files/correct.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    f = open("active-game-files/incorrect_guesses.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    f = open("active-game-files/host.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    f = open("active-game-files/answer.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    f = open("active-game-files/question.txt", "r+")
+    f.truncate()
+    f.close()
+    
+    f = open("active-game-files/question.txt", "r+")
     f.truncate()
     f.close()
     
@@ -29,26 +51,29 @@ def add_game_text(content):
         game_text.writelines(content + "\n")
         
 
-
 def add_correct_text(text):
-    correct_text = "<h3 class='correct'>{}</h3>".format(text)
-    add_game_text(correct_text)
-    return correct_text
+    with open("active-game-files/correct.txt", "a") as f:
+        f.writelines("<span class='correct'>{}</span>".format(text)) 
     
 def add_incorrect_text(text):
-    incorrect_text="<h3 class='incorrect'>{}</h3>".format(text)
-    add_game_text(incorrect_text)
-    return incorrect_text
+    with open("active-game-files/correct.txt", "a") as f:
+        f.writelines("<span class='correct'>{}</span>".format(text)) 
     
+
     
 def add_incorrect_guesses_text(player):
     if len(player["incorrect guesses"]) > 0:
-        text_to_write = "<p id='guesses'> <span id='guesses-title'>Incorrect Guesses: </span> {0}".format(player["incorrect guesses"])
-        add_game_text(text_to_write)
+        text_to_write = "<span id='guesses-title'>Incorrect Guesses: </span> <span class='guesses'> {0} </span>".format(player["incorrect guesses"])
+        with open("active-game-files/incorrect_guesses.txt", "a") as f:
+            f.writelines(text_to_write)
         
 def add_host_text(text):
-    add_game_text("<h2 class='host'>{0}</h2>".format(text))
-        
+    with open("active-game-files/host.txt", "a") as f:
+            f.writelines(text)
+            
+            
+            
+
 def add_correct_answer_text(player):
     question_tuple = player["question"]
     correct_answer = ""
@@ -57,15 +82,62 @@ def add_correct_answer_text(player):
     else: 
         correct_answer = question_tuple[1]
     
-    add_game_text("<p id ='correct-answer'> The correct answer was: {0} </p>".format(correct_answer))
+    text_to_write = "The correct answer was: {0}".format(correct_answer)
+    with open("active-game-files/answer.txt", "a") as f:
+            f.writelines(text_to_write)
     
 def add_eliminated_text(player):
     username= player["username"]
-    add_game_text("<h3 class = 'eliminated'>{} has been eliminated </h3>".format(username))
+    text_to_write = "{} has been eliminated".format(username)
+    with open("active-game-files/eliminated.txt", "a") as f:
+            f.writelines(text_to_write)
 
 def add_question_text(question):
-    add_game_text("<h2 class ='question'> {0} </h2>".format(question))
 
+    with open("active-game-files/game_over.txt", "a") as f:
+            f.writelines("Game Over")
+            
+            
+def add_game_over_text():
+    add_game_text("Game Over</h2>")
+            
+     
+def get_round_text():
+    round_text_list = []
+    
+    with open("active-game-files/correct.txt", "r") as f:
+        correct_text= f.readlines()
+        round_text_list.append(correct_text)
+        
+    with open("active-game-files/eliminated.txt", "r") as f:
+        eliminated_text= f.readlines()
+        round_text_list.append(eliminated_text)
+        
+    with open("active-game-files/answer.txt", "r") as f:
+        answer_text= f.readlines()
+        round_text_list.append(answer_text)
+        
+    with open("active-game-files/host.txt", "r") as f:
+        host_text= f.readlines()
+        round_text_list.append(host_text)
+        
+    with open("active-game-files/question.txt", "r") as f:
+        question_text= f.readlines()
+        round_text_list.append(question_text)
+        
+    with open("active-game-files/incorrect_guesses.txt", "r") as f:
+        incorrect_guesses_text= f.readlines()
+        round_text_list.append(incorrect_guesses_text)
+        
+    with open("active-game-files/game_over.txt", "r") as f:
+        game_over_text= f.readlines()
+        round_text_list.append(game_over_text)
+            
+    
+    # print(round_text)
+    return round_text_list
+     
+     
         
 def dump_data(player_list):
     with open("active-game-files/players.json", mode="w", encoding="utf-8") as json_data:
@@ -86,10 +158,7 @@ def post_leaderboard_data(leaderboard_data):
     with open("data/high_scores.json", mode="w", encoding="utf-8") as f:
             json.dump(leaderboard_data, f)
             
-            
-def add_game_over_text():
-    add_game_text("<h2 class='game-over-test'>Game Over</h2>")
-            
+
             
 def get_sorted_scores():
     # https://stackoverflow.com/questions/72899/how-do-i-sort-a-list-of-dictionaries-by-values-of-the-dictionary-in-python
@@ -986,7 +1055,7 @@ def render_game():
 
         
         
-    return render_template("game.html", game_data = game_data, col_size = col_size, round_text = round_text)
+    return render_template("game.html", correct_text = ''.join(round_text[0]), eliminated_text = ''.join(round_text[1]), answer_text = ''.join(round_text[2]), host_text = ''.join(round_text[3]), question_text = ''.join((round_text[4])), incorrect_guesses_text= ''.join(round_text[5]),  game_over_text= ''.join(round_text[6]), col_size = col_size,  game_data =game_data)
 
         
         
