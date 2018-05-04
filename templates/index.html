@@ -1,33 +1,48 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Riddle-Me-This???</h1>
-
+<header>
+  <h1 id="index-header">Riddle-Me-This???</h1>
+</header>
 <!--Form for selecting number of players and starting game
  taken from Bootstrap-->
 
+<main>
+  <div class="row">
+    <div class="col-12">
+
+      <form method="GET">
+        <div class="form-group row">
+
+          <label for="1players" class="col-form-label">Select Number of Players: </label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="players" id="1Players" value="1" checked>
+            <label class="form-check-label" for="1Players">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="players" id="2Players" value="2">
+            <label class="form-check-label" for="2Players">2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="players" id="3Players" value="3">
+            <label class="form-check-label" for="3Players">3</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="players" id="4Players" value="4">
+            <label class="form-check-label" for="4Players">4</label>
+          </div>
+          <button type="submit" id="start-game-button" class="btn btn-primary mb-2" value="submit">Start Game</button>
 
 
-<form method = "GET">
-    <div class="form-group row">
-        <label for="1players" class= "col-form-label">Select Number of Players: </label>
-    <div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="players" id="1Players" value="1" checked>
-  <label class="form-check-label" for="1Players">1</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="players" id="2Players" value="2">
-  <label class="form-check-label" for="2Players">2</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="players" id="3Players" value="3" >
-  <label class="form-check-label" for="3Players">3</label>
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="players" id="4Players" value="4" >
-  <label class="form-check-label" for="4Players">4</label>
-</div>
-  <button type="submit" id="start-game-button" class="btn btn-primary mb-2" value="submit">Start Game</button>
-
+        </div>
+      </form>
     </div>
-</form>
+
+  </div>
+  <div class="row justify-content-center">
+        <div class="col-2 col-offset-5">
+    <a class="btn btn-success" id="leaderboard-btn" href="/leaderboard" role="button">View Leaderboard</a>
+</div>
+  </div>
+
+</main>
 {% endblock %}

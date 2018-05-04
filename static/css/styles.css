@@ -1,9 +1,41 @@
+body{
+    background-color: #efe2ba !important;
+}
+
+header{
+    text-align: center;
+}
+
 main {
     height: 75vh;
+    text-align: center;
 }
 
 footer {
     height: 15vh;
+}
+
+.form-group {
+    width:100%;
+    justify-content: center;
+    color: #4056a1;
+    font-size:2vw;
+}
+
+#index-header{
+    color: #d79922;
+    font-size: 5vw;
+}
+
+
+.btn {
+    margin-left: 5px;
+    margin-bottom: 8px;
+    font-size: 1.5vw !important;
+}
+
+.col-form-label{
+  padding: 7px !important;
 }
 
 
