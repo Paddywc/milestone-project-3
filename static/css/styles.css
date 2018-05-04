@@ -27,6 +27,18 @@ footer {
     font-size: 5vw;
 }
 
+.text-input{
+    background-color: #c5cbe2;
+    color: #4056a1;
+    margin-left: 3px;
+}
+
+#username-header{
+    color: #d79922;
+    font-size: 4vw;
+}
+
+
 
 .btn {
     margin-left: 5px;
