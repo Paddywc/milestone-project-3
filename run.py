@@ -13,7 +13,7 @@ username = "default"
 
 
 
-def wipe_game_text():
+def wipe_game_text(game_over = False):
     f = open("active-game-files/game_over.txt", "r+")
     f.truncate()
     f.close()
@@ -34,9 +34,10 @@ def wipe_game_text():
     f.truncate()
     f.close()
     
-    f = open("active-game-files/answer.txt", "r+")
-    f.truncate()
-    f.close()
+    if not game_over:
+        f = open("active-game-files/answer.txt", "r+")
+        f.truncate()
+        f.close()
     
     f = open("active-game-files/question.txt", "r+")
     f.truncate()
@@ -46,10 +47,7 @@ def wipe_game_text():
     f.truncate()
     f.close()
     
-def add_game_text(content):
-    with open("active-game-files/game_text.txt", "a") as game_text:
-        game_text.writelines(content + "\n")
-        
+
 
 def add_correct_text(text):
     with open("active-game-files/correct.txt", "a") as f:
@@ -94,12 +92,13 @@ def add_eliminated_text(player):
 
 def add_question_text(question):
 
-    with open("active-game-files/game_over.txt", "a") as f:
-            f.writelines("Game Over")
+    with open("active-game-files/question.txt", "a") as f:
+            f.writelines(question)
             
             
 def add_game_over_text():
-    add_game_text("Game Over</h2>")
+    with open("active-game-files/game_over.txt", "a") as f:
+        f.writelines("Game Over")
             
      
 def get_round_text():
@@ -954,8 +953,8 @@ def set_username_page(players):
             username = request.form["player-{0}-username".format(i+1)]
             player_object = {
                 "username" : username,
-                "lives" : 3,
-                "score" : 2,
+                "lives" : 1,
+                "score" : 4,
                 "question": "",
                 "last question correct": True,
                 "turn" : False,
@@ -1016,10 +1015,18 @@ def render_game():
         set_previous_answer()
         was_correct = check_previous_player_answer()
         update_lives_and_score(was_correct)
-        eliminated_player = eliminate_dead_players()
-        set_player_question()
-        ask_question()
+        eliminate_dead_players()
+        if all_players_gone():
+            wipe_game_text(True)
+            add_game_over_text()
+            leaderboard_data = get_sorted_scores()
+            round_text = get_round_text()
     
+            return render_template("leaderboard.html", leaderboard_data = leaderboard_data, answer_text = ''.join(round_text[2]), game_over_text= ''.join(round_text[6]))
+        else:
+            set_player_question()
+            ask_question()
+        
         game_data = get_json_data()
     else:
            
@@ -1041,13 +1048,12 @@ def render_game():
 
     round_text = get_round_text()
     if all_players_gone():
-        wipe_game_text()
+        wipe_game_text(True)
         add_game_over_text()
-        add_correct_answer_text(eliminated_player)
-        round_text = get_round_text()
         leaderboard_data = get_sorted_scores()
+        round_text = get_round_text()
     
-        return render_template("leaderboard.html", leaderboard_data = leaderboard_data, round_text=round_text)
+        return render_template("leaderboard.html", leaderboard_data = leaderboard_data, answer_text = ''.join(round_text[2]), game_over_text= ''.join(round_text[6]))
         
         
     round_text = get_round_text()
@@ -1055,7 +1061,7 @@ def render_game():
 
         
         
-    return render_template("game.html", correct_text = ''.join(round_text[0]), eliminated_text = ''.join(round_text[1]), answer_text = ''.join(round_text[2]), host_text = ''.join(round_text[3]), question_text = ''.join((round_text[4])), incorrect_guesses_text= ''.join(round_text[5]),  game_over_text= ''.join(round_text[6]), col_size = col_size,  game_data =game_data)
+    return render_template("game.html", correct_text = ''.join(round_text[0]), eliminated_text = ''.join(round_text[1]), answer_text = ''.join(round_text[2]), host_text = ''.join(round_text[3]), question_text = ''.join((round_text[4])), incorrect_guesses_text= ''.join(round_text[5]),   col_size = col_size,  game_data =game_data)
 
         
         
