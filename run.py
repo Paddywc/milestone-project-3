@@ -14,6 +14,13 @@ username = "default"
 
 
 def wipe_game_text(game_over = False):
+    """
+    wipes content from all game file
+    if game_over == True, correct answer text is not wiped.
+    This is so that the answer to the final players question
+    can be displayed on the leaderboard page
+    """
+    
     f = open("active-game-files/game_over.txt", "r+")
     f.truncate()
     f.close()
@@ -218,6 +225,32 @@ def set_multiple_usernames(amount):
         username = set_username()
         username_list.append(username)
     return username_list
+    
+def get_col_size(game_data):
+    """
+    retrieves col size (xs) for player
+    cards in  game.html
+    """
+    players = len(game_data)
+    
+    col_size = int(24/players)
+    
+    if players==1:
+        col_size=12
+        
+    return col_size
+    
+def get_col_sm_size(game_data):
+    """
+    retrieves size of columns for devices 
+    larger than xs (576 px width)
+    """
+    
+    players = len(game_data)
+    
+    col_size = int(12/players)
+    
+    return col_size
     
     
 
@@ -1001,15 +1034,10 @@ def render_game():
 
     game_data = get_json_data()
     
-    players = len(game_data)
+    col_size = get_col_size(game_data)
+        
+    col_sm_size = get_col_sm_size(game_data)
     
-    col_size = int(24/players)
-    col_sm_size = int(12/players)
-    
-    if players==1:
-        col_size=12
-    
-    eliminated_player= {}
     
     
     if request.method == "POST":
