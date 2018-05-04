@@ -7,7 +7,7 @@ header{
 }
 
 main {
-    height: 75vh;
+   min-height: 65vh;
     text-align: center;
 }
 
@@ -39,7 +39,10 @@ footer {
 }
 
 
-
+.question img {
+    max-width: 90vw;
+    max-height: 30vh;
+}
 .btn {
     margin-left: 5px;
     margin-bottom: 8px;
@@ -52,53 +55,62 @@ footer {
 
 
 .host{
-    font-size: 40px;
-    color: yellow
+    font-size: 2vw;
+    color: #AA9656
 }
 
 .question{
-    font-size:40px;
-    color: blue;
+    font-size:2.5vw;
+    color: #d79922;
 }
 
 .answer{
 
-color: purple;    
+color: #FFFDF5;    
+size: 1.5vw;
 
 }
 
 .guesses{
-    color: pink;
+    color: #FFF8E1;
+    font-size: 2vw;
 }
 
 .eliminated {
-    font-size: 50px;
-    color: red;
+    font-size: 3vw;
+    color: #e27D60;
 }
 
 .correct {
-    font-size: 30px;
-    color: green;
+    font-size:4vw;
+    color: #8EEFAF;
 }
 
 .incorrect {
-    font-size: 30px;
-    color: red;
+    font-size: 4vw;
+    color: #e27D60;
 }
 
+.card-row .col{
+    padding:0;
+}
+
+.card{
+    text-align: center;
+}
 
 #player-1-card{
-    background-color: blue
+    background-color: #a64ac9
 }
 
 #player-2-card{
-    background-color:red;
+    background-color:#Fccd04;
 }
 
 #player-3-card{
-    background-color: yellow;
+    background-color: #ffb48f;
 }
 
 #player-4-card{
-    background-color: green;
+    background-color: #17e9e0;
 }

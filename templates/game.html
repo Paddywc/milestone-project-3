@@ -20,16 +20,16 @@
 
 
     <form method="POST">
-        <input type="text" id="answer" name="answer" placeholder="Your answer...">
+        <input type="text" class="text-input" id="answer" name="answer" placeholder="Your answer...">
 
     </form>
 </main>
 <footer>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row card-row">
             {% for player in game_data %}
 
-            <div class="col col-{{ col_size }}">
+            <div class="col col-{{ col_size }} col-sm-{{ col_sm_size }}">
                 <div class="card" id="player-{{ player.no }}-card">
                     <h5 class="card-title">{{ player.username}}</h5>
                     <div class="card-body">

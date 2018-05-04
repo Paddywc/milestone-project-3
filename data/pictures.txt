@@ -20,7 +20,7 @@ Image 2 is different. Look at the eyes.
 
 tiger.jpg
 Things are just as they seem, right? Well, check again. Can you count the number of tigers in this picture ?
-tiger-answer.jpg
+16
 16
 
 how-many-balls.jpg
@@ -30,7 +30,7 @@ Can you count the number of balls in picture below?
 
 number-of-squares.jpg
 Can you count the number of squares in the figure below
-number-of-squares-answer.jpg
+40
 40
 
 guess-the-parking-number-puzzle.jpg

@@ -55,7 +55,7 @@ def add_correct_text(text):
     
 def add_incorrect_text(text):
     with open("active-game-files/correct.txt", "a") as f:
-        f.writelines("<span class='correct'>{}</span>".format(text)) 
+        f.writelines("<span class='incorrect'>{}</span>".format(text)) 
     
 
     
@@ -67,7 +67,7 @@ def add_incorrect_guesses_text(player):
         
 def add_host_text(text):
     with open("active-game-files/host.txt", "a") as f:
-            f.writelines(text)
+            f.writelines("{}<br>".format(text))
             
             
             
@@ -80,7 +80,7 @@ def add_correct_answer_text(player):
     else: 
         correct_answer = question_tuple[1]
     
-    text_to_write = "The correct answer was: {0}".format(correct_answer)
+    text_to_write = "The correct answer was: {0}<br>".format(correct_answer)
     with open("active-game-files/answer.txt", "a") as f:
             f.writelines(text_to_write)
     
@@ -93,7 +93,7 @@ def add_eliminated_text(player):
 def add_question_text(question):
 
     with open("active-game-files/question.txt", "a") as f:
-            f.writelines(question)
+            f.writelines("{}<br>".format(question))
             
             
 def add_game_over_text():
@@ -406,7 +406,7 @@ def ask_question():
     
     if question_is_picture_question(question): 
         img_text = "<img src ='{}'>".format(question[0])
-        add_game_text(img_text)
+        add_question_text(img_text)
         add_question_text(question[1])
     else:
         # print(question[0])
@@ -953,7 +953,7 @@ def set_username_page(players):
             username = request.form["player-{0}-username".format(i+1)]
             player_object = {
                 "username" : username,
-                "lives" : 1,
+                "lives" : 2,
                 "score" : 4,
                 "question": "",
                 "last question correct": True,
@@ -1002,7 +1002,12 @@ def render_game():
     game_data = get_json_data()
     
     players = len(game_data)
-    col_size = 12/players
+    
+    col_size = int(24/players)
+    col_sm_size = int(12/players)
+    
+    if players==1:
+        col_size=12
     
     eliminated_player= {}
     
@@ -1061,7 +1066,7 @@ def render_game():
 
         
         
-    return render_template("game.html", correct_text = ''.join(round_text[0]), eliminated_text = ''.join(round_text[1]), answer_text = ''.join(round_text[2]), host_text = ''.join(round_text[3]), question_text = ''.join((round_text[4])), incorrect_guesses_text= ''.join(round_text[5]),   col_size = col_size,  game_data =game_data)
+    return render_template("game.html", correct_text = ''.join(round_text[0]), eliminated_text = ''.join(round_text[1]), answer_text = ''.join(round_text[2]), host_text = ''.join(round_text[3]), question_text = ''.join((round_text[4])), incorrect_guesses_text= ''.join(round_text[5]),   col_size = col_size, col_sm_size= col_sm_size,  game_data =game_data)
 
         
         
