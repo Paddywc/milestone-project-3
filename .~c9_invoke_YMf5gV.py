@@ -129,11 +129,11 @@ def get_round_text():
         
     with open("active-game-files/question.txt", "r") as f:
         question_text= f.readlines()
-        round_text_dictionary["question text"] = question_text
+        round_text_dictionary["question"] = question_text
         
     with open("active-game-files/incorrect_guesses.txt", "r") as f:
         incorrect_guesses_text= f.readlines()
-        round_text_dictionary["incorrect guesses text"] = incorrect_guesses_text
+        round_text_dictionary["incorrect quesses text"] = incorrect_guesses_text
         
     with open("active-game-files/game_over.txt", "r") as f:
         game_over_text= f.readlines()
@@ -141,7 +141,7 @@ def get_round_text():
             
     
     # print(round_text)
-    return round_text_dictionary
+    return round_text_list
      
      
         
@@ -420,7 +420,6 @@ def question_is_picture_question(question):
 def ask_question():
     """
     asks question to the user
-    also adds introduction host text
     """
     
     current_player = get_current_player()
@@ -643,11 +642,14 @@ def set_user_answer(player, game_data):
     
 def append_and_return_incorrect_guesses_string(player):
     
+    print("before IG: {0}".format(player["incorrect guesses"]))
     incorrect_guesses = player["incorrect guesses"]
+    print("incorrect guesses: {0}".format(incorrect_guesses))
     last_guess = player["answer"]
     
     last_guess_string = " ".join(str(word) for word in last_guess)
     new_text = "{0}<br>{1}".format(incorrect_guesses, last_guess_string)
+    print(new_text)
     return new_text
     
 
@@ -665,18 +667,23 @@ def check_previous_player_answer():
 
     question = previous_player["question"]
     
+    print("inside check prev player {0}".format(previous_player["incorrect guesses"]))
+    
+    
     if question_is_picture_question(question):
         keyword = question[3]
     else:
         keyword = question[2]
         
     if keyword in answer:
+        print("Correct!")
         add_correct_text("Correct!")
         previous_player["last question correct"] = True
         previous_player["incorrect guesses"] = ""
         return_player_to_game_data(previous_player)
         return True
     else:
+        print("Wrong!")
         add_incorrect_text("Incorrect")
         previous_player["last question correct"] = False
         previous_player["incorrect guesses"] = append_and_return_incorrect_guesses_string(previous_player)
@@ -911,7 +918,8 @@ def eliminate_dead_players():
     if player_index != 999:
         game_data.pop(player_index)
         dump_data(game_data)
-
+        return eliminated_player
+        
 
             
             
@@ -978,8 +986,8 @@ def set_username_page(players):
             username = request.form["player-{0}-username".format(i+1)]
             player_object = {
                 "username" : username,
-                "lives" : 3,
-                "score" : 3,
+                "lives" : 2,
+                "score" : 4,
                 "question": "",
                 "last question correct": True,
                 "turn" : False,
@@ -1077,7 +1085,7 @@ def render_game():
         leaderboard_data = get_sorted_scores()
         round_text = get_round_text()
     
-        return render_template("leaderboard.html", leaderboard_data = leaderboard_data, answer_text = round_text["answer text"], game_over_text= round_text["game over text"])
+        return render_template("leaderboard.html", leaderboard_data = leaderboard_data, answer_text = ''.join(round_text[2]), game_over_text= ''.join(round_text[6]))
         
         
     round_text = get_round_text()
@@ -1085,7 +1093,7 @@ def render_game():
 
         
         
-    return render_template("game.html", correct_text = "".join(round_text["correct text"]), eliminated_text = "".join(round_text["eliminated text"]), answer_text = "".join(round_text["answer text"]), host_text = "".join(round_text["host text"]), question_text ="".join(round_text["question text"]), incorrect_guesses_text= "".join(round_text["incorrect guesses text"]),   col_size = col_size, col_sm_size= col_sm_size,  game_data =game_data)
+    return render_template("game.html", correct_text = round_text["correct_text"], eliminated_text = r, answer_text = ''.join(round_text[2]), host_text = ''.join(round_text[3]), question_text = ''.join((round_text[4])), incorrect_guesses_text= ''.join(round_text[5]),   col_size = col_size, col_sm_size= col_sm_size,  game_data =game_data)
 
         
         
