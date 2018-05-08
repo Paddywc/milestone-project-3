@@ -167,8 +167,6 @@ class testGame(unittest.TestCase):
         self.assertFalse(run.last_question_correct(should_return_false))
         self.assertTrue(run.last_question_correct(should_rreturn_true))
         
-        
-        
     def test_set_difficulty_returns_string(self):
         """
         test to check if the set_difficulty 
