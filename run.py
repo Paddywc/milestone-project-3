@@ -390,7 +390,7 @@ def create_game_data(number_of_players):
         username = request.form["player-{0}-username".format(i+1)]
         player_object = {
             "username": username,
-            "lives": 1,
+            "lives": 3,
             "score": 0,
             "question": "",
             "last question correct": True, #determines if a new question is set. Therefore initially set to True
@@ -738,7 +738,6 @@ def index():
     number of players (1-4 inclusive) they selected
     """
     if request.method == "GET":
-        round_text = get_round_text()
         players = request.args.get("players")
         if players == None:
             return render_template("index.html")
@@ -777,12 +776,9 @@ def render_game():
     """
     main game loop
     """
-
     wipe_game_text()
     game_data = get_json_data()
 
-    col_size = get_col_size(game_data)
-    col_sm_size = get_col_sm_size(game_data)
  
     if request.method == "POST":#only runs after form has been submitted once. Won't run first time page is loaded
         set_new_chosen_and_previous_player()
@@ -806,6 +802,10 @@ def render_game():
         set_player_question()
         ask_question()
 
+
+    col_size = get_col_size(game_data)
+    col_sm_size = get_col_sm_size(game_data)
+ 
     round_text = get_round_text()
     
     if all_players_gone(): #adds game over and correct answer text and renders leaderboard template 
