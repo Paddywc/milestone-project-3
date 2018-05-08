@@ -447,10 +447,13 @@ def get_col_size(game_data):
     cards in  game.html
     """
     players = len(game_data)
-    col_size = int(24/players)
+    col_size = 999
 
     if players == 1:
         col_size = 12
+        
+    else:
+        col_size= 6
 
     return col_size
 

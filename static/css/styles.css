@@ -1,39 +1,36 @@
-body{
+body {
     background-color: #efe2ba !important;
 }
 
-header{
+header {
     text-align: center;
 }
 
 main {
-   min-height: 65vh;
+    height: 50vh;
     text-align: center;
 }
 
-footer {
-    height: 15vh;
-}
 
 .form-group {
-    width:100%;
+    width: 100%;
     justify-content: center;
     color: #4056a1;
-    font-size:2vw;
+    font-size: 2vw;
 }
 
-#index-header{
+#index-header {
     color: #d79922;
     font-size: 5vw;
 }
 
-.text-input{
+.text-input {
     background-color: #c5cbe2;
     color: #4056a1;
     margin-left: 3px;
 }
 
-#username-header{
+#username-header {
     color: #d79922;
     font-size: 4vw;
 }
@@ -42,72 +39,103 @@ footer {
     max-width: 90vw;
     max-height: 30vh;
 }
+
 .btn {
     margin-left: 5px;
     margin-bottom: 8px;
     font-size: 1.5vw !important;
 }
 
-.col-form-label{
-  padding: 7px !important;
+.col-form-label {
+    padding: 7px !important;
+    font-size: 1.5em !important;
 }
 
 
-.host{
-    font-size: 2vw;
+.host {
+    font-size: 1.6em;
     color: #AA9656
 }
 
-.question{
-    font-size:2.5vw;
+.question {
+    font-size: 2em;
     color: #d79922;
 }
 
-.answer{
-color: #FFFDF5;    
-size: 1.5vw;
+.answer {
+    color: #e27D60;
+    size: 3em;
 }
 
-.guesses{
-    color: #FFF8E1;
-    font-size: 2vw;
+.guesses {
+    color: #AA9656;
+    font-size: 1em;
 }
 
 .eliminated {
-    font-size: 3vw;
+    font-size: 2.5em;
     color: #e27D60;
 }
 
 .correct {
-    font-size:4vw;
+    font-size: 2em;
     color: #8EEFAF;
 }
 
 .incorrect {
-    font-size: 4vw;
+    font-size: 2em;
     color: #e27D60;
 }
 
-.card-row .col{
-    padding:0;
+.card-row .col {
+    padding: 0;
 }
 
-.card{
+.card {
     text-align: center;
 }
 
-#player-1-card{
-    background-color: #a64ac9
+#player-1-card {
+    background-color: #a64ac9;
+    color: #F6A4CC;
 }
 
-#player-2-card{
-    background-color:#Fccd04;
+#player-2-card {
+    background-color: #Fccd04;
+    color: #9A7D00;
 }
 
-#player-3-card{
+#player-3-card {
     background-color: #ffb48f;
+    color: #FFE5D8;
 }
 
-#player-4-card{
+#player-4-card {
     background-color: #17e9e0;
+    color: #00A19B;
+}
+
+.leaderboard-title {
+    color: #d79922;
+}
+
+#return-to-game-btn {
+    font-size: 2.5vw !important;
+}
+
+
+@media(min-width:750px) {
+    main {
+        height: 70vh;
+    }
+
+    .col-form-label {
+        font-size: 1em !important;
+    }
+
+    #return-to-game-btn {
+        font-size: 1vw !important;
+    }
+
+
 }
