@@ -6,7 +6,6 @@ chardet==2.2.1
 colorama==0.2.5
 html5lib==0.999
 itsdangerous==0.22
-pyOpenSSL==0.13
 pycurl==7.19.3
 pyinotify==0.9.4
 requests==2.2.1
