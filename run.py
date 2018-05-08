@@ -927,7 +927,6 @@ def add_to_leaderboard(player):
     
     saved_score = {"username": username, "score": score}
     
-    
     leaderboard_data = get_leaderboard_data()
     
     leaderboard_data.append(saved_score)
@@ -937,13 +936,30 @@ def add_to_leaderboard(player):
     
     
     
-
+def create_game_data(number_of_players):
     
+    player_list = []
+    for i in range(number_of_players):
+        username = request.form["player-{0}-username".format(i+1)]
+        player_object = {
+            "username" : username,
+            "lives" : 3,
+            "score" : 7,
+            "question": "",
+            "last question correct": True,
+            "turn" : False,
+            "previous": False,
+            "answer": "",
+            "no": i+1,
+            "incorrect guesses": ""
+        }
+        player_list.append(player_object)
+    dump_data(player_list)
+
     
 def all_players_gone():
     game_data = get_json_data()
     
-    print(len(game_data))
     if len(game_data)>0:
         return False
     else:
@@ -971,35 +987,8 @@ def set_username_page(players):
 
     players = int(players)
 
-    player_list = []
     if request.method=="POST":
-        for i in range(players):
-            i_string = str(i)
-            username = request.form["player-{0}-username".format(i+1)]
-            player_object = {
-                "username" : username,
-                "lives" : 3,
-                "score" : 3,
-                "question": "",
-                "last question correct": True,
-                "turn" : False,
-                "previous": False,
-                "answer": "",
-                "no": i+1,
-                "incorrect guesses": ""
-            }
-            player_list.append(player_object)
-            
-        # initial_player = player_list[0]
-        # initial_player["turn"] = True
-        used_questions = []
-        # set_player_question(initial_player, player_list, used_questions)
-        
-        # return_player_to_game_data(initial_player, player_list)
-        
-        
-        dump_data(player_list)
-        
+        create_game_data(players)
         return redirect("/game")
     
     

@@ -522,6 +522,125 @@ class testGame(unittest.TestCase):
         
         
     
+    def test_get_leaderboard_data_returns_dictionary_with_username_score(self):
+        """
+        test to check that get_leaderboard_data() returns a list of 
+        dictionaries. Each dictionary should have a username and score 
+        value only
+        """
+        
+        returned_list = run.get_leaderboard_data()
+        
+        for dictionary in returned_list:
+            self.assertTrue(dictionary["username"])
+            self.assertTrue(dictionary["score"])
+            self.assertEqual(len(dictionary), 2)
+        
+    
+    def test_post_leaderboard_adds_values_to_high_scores(self):
+        """
+        test to check that post_leaderboard_data adds its argument
+        to high_scores.json, wipes other data
+        """
+        
+        orginal_leaderboard_data = run.get_leaderboard_data()
+        length_of_original_leaderboard_data = len(orginal_leaderboard_data)
+        
+        empty_leaderboard_data = []
+        run.post_leaderboard_data(empty_leaderboard_data)
+        
+        new_leaderboard_data= run.get_leaderboard_data()
+        self.assertEqual(len(new_leaderboard_data), 0)
+        
+        run.post_leaderboard_data(orginal_leaderboard_data)
+        returned_leaderboard_data = run.get_leaderboard_data()
+        self.assertEqual(len(returned_leaderboard_data), length_of_original_leaderboard_data)
+        
+        
+    def test_add_to_leaderboard_appends_leaderboard_data(self):
+        """
+        test to check that all_to_leaderboard appends, but doesn't
+        wipe, high_scores.json
+        """
+        
+        orginal_leaderboard_data = run.get_leaderboard_data()
+        length_of_original_leaderboard_data = len(orginal_leaderboard_data)
+        
+        run.add_to_leaderboard({"username": "unique test name", "score": 2})
+        new_leaderboard_data = run.get_leaderboard_data()
+        length_of_new_leaderboard_data = len(new_leaderboard_data)
+        
+        self.assertEqual(length_of_new_leaderboard_data, length_of_original_leaderboard_data+1)
+        found_new_data = False
+        
+        for player in new_leaderboard_data:
+            if player["username"] == "unique test name":
+                found_new_data = True
+                
+        self.assertTrue(found_new_data)
+        run.post_leaderboard_data(orginal_leaderboard_data)
+        
+        
+    def test_add_correct_answer_test_write_answer_for_both_picture_and_text_questions(self):
+        """
+        test to check that add_correct_answer_text correctly posts the answer of the 
+        argument player's question for both picture and text questions
+        """
+        
+        run.wipe_game_text()
+        
+        text_question_plyaer = {"question": ["I have rivers, but do not have water. I have dense forests, but no trees and animals. I have cities, but no people live in those cities. What am I?", "A map", "map"]}
+        picture_question_player = {"question":["/static/img/how-many-balls.jpg", "Can you count the number of balls in picture below?", "30 (16+9+4+1)", "30"]}
+        
+        run.add_correct_answer_text(text_question_plyaer)
+        all_text = run.get_round_text()
+        answer_text = "".join(all_text["answer text"])
+        answer_should_be = "The correct answer was: A map<br>"
+        self.assertEqual(answer_text, answer_should_be)
+        
+        run.wipe_game_text()
+        run.add_correct_answer_text(picture_question_player)
+        all_text = run.get_round_text()
+        answer_text = "".join(all_text["answer text"])
+        answer_should_be = "The correct answer was: 30 (16+9+4+1)<br>"
+        self.assertEqual(answer_text, answer_should_be)
+        
+    def test_all_players_gone_returns_accurate_boolean(self):
+        """
+        test to check that all_players_gone returns a 
+        boolean. Should be False if players.json is not 
+        empty. Otherwise should be True
+        """
+        
+        result = run.all_players_gone()
+        self.assertEqual(type(result), bool)
+        
+        empty_list = []
+        run.dump_data(empty_list)
+        self.assertTrue(run.all_players_gone())
+        
+        not_empty_list = [1,2,3]
+        run.dump_data(not_empty_list)
+        self.assertFalse(run.all_players_gone())
+        
+        
+    
+        
+    def test_get_soted_scores_returns_list_of_objects_sorted_by_descending_score(self):
+        """
+        test to check that get_sorted_scores returns a list of object where each 
+        object's score value is greater than or equal to the following object
+        """
+        
+        sorted_scores = run.get_sorted_scores()
+        
+        for i in range(len(sorted_scores)-1):
+            self.assertTrue(sorted_scores[i]["score"] >= sorted_scores[i+1]["score"])
+        
+    
+        
+        
+    
         
         
         
