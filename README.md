@@ -10,7 +10,7 @@ Playing a game where users attempt to solve riddles
 Up to four players take turns solving riddles. Answer correctly and gain a point. Answer incorrectly and lose a life.  Players must answer a riddle correctly before moving onto the next one. The riddles become more difficult as the player’s score increases. Players are eliminated when they run out of lives. Final scores are logged to a leaderboard. 
 
 ### How does it work? 
-Players set their usernames using a POST method form. A list of dictionaries is then created and saved in a JSON file. Each dictionary represents one player. It stores all their information required throughout the game. This includes their username, score, current question and incorrect guesses. Functions written in Python3 and Flask get data from this file, edit the data, and then dump it back. Players submit their answer using a POST method form. The functions then adjust the JSON data accordingly. For example, if a player answers a question incorrectly, Python subtracts 1 from that player’s score, turns their “last question correct” value to false, and adds their guess to their ‘incorrect guesses’ value. Once eliminated, players scores are added to a high scores JSON file. Flask routing is used to render these high scores in a HTML template, as well as all other pages in the web app. 
+Players set their usernames using a POST method form. A list of dictionaries is then created and saved in a JSON file. Each dictionary represents one player. It stores all their information required throughout the game. This includes their username, score, current question and incorrect guesses. Functions written in Python3 and Flask get data from this file, edit the data, and then dump it back. Players submit their answer using a POST method form. The functions then adjust the JSON data accordingly. For example, if a player answers a question incorrectly, Python subtracts 1 from that player’s score, turns their “last question correct” value to false, and adds their guess to their ‘incorrect guesses’ value. Once eliminated, player's scores are added to a high scores JSON file. Flask routing is used to render these high scores in a HTML template, as well as all other pages in the web app. 
 
 ## Features
 
@@ -61,9 +61,9 @@ This project used Test Driven Development(TDD). Tests were (mostly) written befo
 
 ### Manual Testing
 Manual tests were carried out primarily for two purposes:
-1.	**Testing the flow off the game**
+1.	**Testing the flow off the game**:
 The game loop (the render_game() function) is a combination of various functions. All these functions may work correctly, thus passing all the automated tests, but not work together as planned. Therefore, manual testing was required to ensure the game flowed as planned. An example of this was removing dead players from the JSON data before checking if all players have been eliminated.
-2.	**Experimenting with the project**
+2.	**Experimenting with the project**:
 There were times throughout development where some experimentation was required to understand what functions to design. In these instances, the first step was to experiment by designing a few functions. Then, once it was known what functions should be designed, these functions could be tested to ensure that they worked as planned.
 
 ### Automated Tests
