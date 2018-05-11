@@ -1,1 +1,0 @@
-<span id='guesses-title'>Incorrect Guesses: </span> <span class='guesses'> <br>the pope<br>a bottle </span>

@@ -427,8 +427,8 @@ def set_username():
     """
     sets the user's username
     """
-    username = input("Please enter your desired username: ")
-    # username = request.form["answer"]
+    # username = input("Please enter your desired username: ")
+    username = request.form["answer"]
     if len(username) > 0:
         print("Hello " + username)
         return(username)
