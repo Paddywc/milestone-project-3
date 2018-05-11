@@ -27,7 +27,7 @@ Players set their usernames using a POST method form. A list of dictionaries is 
 
 ### Features Left to Implement
 -	None
--	
+
 ## Tech Used
 
 ### Some of the tech used includes:
@@ -51,7 +51,7 @@ Players set their usernames using a POST method form. A list of dictionaries is 
     *	Used to store high score data, found in /data/high_scores.json
 - [**Bootstrap**](http://getbootstrap.com/)
     *	Used primarily for the website’s grid layout and for styling buttons, player cards, and the leaderboard table
-- [**Heroku**][https://project-3-riddle-me-this.herokuapp.com/] 
+- [**Heroku**](https://project-3-riddle-me-this.herokuapp.com/)
     *	To host the final version of the game 
 
 ## Testing 
@@ -79,7 +79,7 @@ Pseudocode was often used when designing the automated tests.  As python resembl
 - Open and read the question.txt
 - Store the response as a variable
 - Assert that this variable is equal to the player's question
-[Python code](https://i.snag.gy/EwZv6m.jpg)
+![Python code](https://i.snag.gy/EwZv6m.jpg)
 
 2.	Test that post_to_leaderboard function adds its argument to high_scores.json
 I
@@ -92,7 +92,9 @@ I
 -	Dump the original leaderboard data to high_scores.json
 -	Get the data in high_scores.json
 -	Save its length as a variable 
-o	Assert that it equals the length of the original data
+    *   Assert that it equals the length of the original data
+![Python code](https://i.snag.gy/ByibWu.jpg)
+
 ## Contributing 
 ### Getting the project running locally
 1.	Clone or download this GitHub repository using the ‘Clone or Download’ button found on [the main page](https://github.com/Paddywc/milestone-project-3) 
