@@ -82,7 +82,6 @@ Pseudocode was often used when designing the automated tests.  As python resembl
 ![Python code](https://i.snag.gy/EwZv6m.jpg)
 
 2.	Test that post_to_leaderboard function adds its argument to high_scores.json
-I
 -	Get the current leaderboard data
     *	Save its length as a variable
 -	Create an empty list variable
