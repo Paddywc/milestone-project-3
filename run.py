@@ -805,11 +805,7 @@ def render_game():
         set_player_question()
         ask_question()
 
-
-    col_size = get_col_size(game_data)
-    col_sm_size = get_col_sm_size(game_data)
- 
-    round_text = get_round_text()
+    
     
     if all_players_gone(): #adds game over and correct answer text and renders leaderboard template 
         wipe_game_text(True)
@@ -817,7 +813,13 @@ def render_game():
         leaderboard_data = get_sorted_scores()
         round_text = get_round_text()
         return render_template("leaderboard.html", leaderboard_data=leaderboard_data, answer_text="".join(round_text["answer text"]), game_over_text="".join(round_text["game over text"]))
-
+    
+    
+    
+    col_size = get_col_size(game_data)
+    col_sm_size = get_col_sm_size(game_data)
+ 
+    round_text = get_round_text()
     round_text = get_round_text()
     game_data = get_json_data()
 
