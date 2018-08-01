@@ -538,9 +538,9 @@ class TestGame(unittest.TestCase):
         self.assertTrue(found_new_data)
         json_functions.post_leaderboard_data(original_leaderboard_data)
 
-    def test_add_correct_answer_test_write_answer_for_both_picture_and_text_questions(self):
+    def test_get_correct_answer_writes_answer_for_both_picture_and_text_questions(self):
         """
-        test to check that add_correct_answer_text correctly posts the answer of the 
+        test to check that get_correct_answer_text correctly posts the answer of the 
         argument player's question for both picture and text questions
         """
         game_text_functions.wipe_game_text()
@@ -552,14 +552,14 @@ class TestGame(unittest.TestCase):
             "question": ["/static/img/how-many-balls.jpg", "Can you count the number of balls in picture below?",
                          "30 (16+9+4+1)", "30"]}
 
-        game_text_functions.add_correct_answer_text(text_question_player)
+        gameplay_loop.get_correct_answer(text_question_player)
         all_text = game_text_functions.get_round_text()
         answer_text = "".join(all_text["answer text"])
         answer_should_be = "The correct answer was: A map<br>"
         self.assertEqual(answer_text, answer_should_be)
 
         game_text_functions.wipe_game_text()
-        game_text_functions.add_correct_answer_text(picture_question_player)
+        gameplay_loop.get_correct_answer(picture_question_player)
         all_text = game_text_functions.get_round_text()
         answer_text = "".join(all_text["answer text"])
         answer_should_be = "The correct answer was: 30 (16+9+4+1)<br>"
