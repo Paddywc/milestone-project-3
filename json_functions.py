@@ -4,7 +4,6 @@ from flask import request
 
 from game_text_functions import add_eliminated_text, add_correct_answer_text
 
-
 def dump_data(player_list):
     """
     adds argument to players.json. Wipes pre-existing content
@@ -169,20 +168,22 @@ def eliminate_dead_players():
     """
     game_data = get_json_data()
     player_index = 999
+    eliminated_player = False
 
     for player in game_data:
         if player["lives"] <= 0:
             add_to_leaderboard(player)
             player_index = game_data.index(player)
             add_eliminated_text(player)
-            add_correct_answer_text(player)
+            eliminated_player = player
+            
 
     if player_index != 999:
         game_data.pop(player_index)
         dump_data(game_data)
 
     dump_data(game_data)
-    return game_data
+    return eliminated_player
 
 
 def add_to_leaderboard(player):

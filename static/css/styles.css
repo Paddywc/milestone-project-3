@@ -93,6 +93,7 @@ main {
 
 .card {
     text-align: center;
+    z-index: -1;
 }
 
 #player-1-card {

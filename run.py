@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect
 
 from game_text_functions import wipe_game_text, add_game_over_text, get_round_text
 from gameplay_loop import ask_question, set_previous_answer, check_previous_player_answer, set_player_question, \
-    update_lives_and_score
+    update_lives_and_score, get_correct_answer
 from json_functions import dump_data, get_json_data, get_sorted_scores, initialize_used_question, \
     set_new_chosen_and_previous_player, eliminate_dead_players, create_game_data, all_players_gone
 
@@ -124,7 +124,9 @@ def render_game():
         set_previous_answer()
         was_correct = check_previous_player_answer()
         update_lives_and_score(was_correct)
-        eliminate_dead_players()
+        eliminated_player = eliminate_dead_players()
+        if eliminated_player:
+            get_correct_answer(eliminated_player)
 
         if not all_players_gone():
             set_player_question()
