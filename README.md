@@ -97,15 +97,18 @@ Pseudocode was often used when designing the automated tests.  As python resembl
 ## Contributing 
 ### Getting the project running locally
 1.	Clone or download this GitHub repository using the ‘Clone or Download’ button found on [the main page](https://github.com/Paddywc/milestone-project-3) 
-2.	Open the project directory using an integrated development environment (IDE)  software application, such as Eclipse or Visual Code Studio
-3.	Ensure you have Python3 installed on your computer, and install it if you do not. How you should do this depends on which operating system you are using.  See the [Python Documentation](https://docs.python.org/3.4/using/index.html) for instructions 
-4.	Next, you’ll need to install Flask. Detailed documentation can be found on the [Flask Website]( http://flask.pocoo.org/docs/1.0/installation/#installation). The simplest way to install Flask is to:
+2.	Open the project directory using an integrated development environment (IDE) software application, such as Eclipse or Visual Code Studio
+3.	Ensure you have Python3 installed on your computer. Install it if you do not. How you should do this depends on which operating system you are using.  See the [Python Documentation](https://docs.python.org/3.4/using/index.html) for instructions 
+4.	Next, you’ll need to install Flask. Detailed documentation can be found on the [Flask Website](http://flask.pocoo.org/docs/1.0/installation/#installation). The simplest way to install Flask is to:
     *	Create a project folder 
     *	Create a python3 venv folder within this project folder
     *	Activate the environment using either _. venv/bin/activate_ or _venv\Scripts\activate_
-    *	Within this activated environment, install Flask by using the following command : _pip install Flask_
+    *	Within this activated environment, install Flask by using the following command : _pip install Flask_. Note that that you will need to have pip installed.  If you do not, install pip by following [these instructions]( https://pip.pypa.io/en/stable/installing/)
 5.	Run the code in run.py
-6.	Well done! The project is now up and running on your local port. Click the link in your terminal to view the web app
+6.	Well done! The project is now up and running. Click the link in your terminal to view the web app. If you are missing any dependencies, check the requirments.txt file. 
+
+## Deployment
+The app is hosted on [Heroku](http://project-3-riddle-me-this.herokuapp.com/). The code is identical that in the [GitHub Repository](https://github.com/Paddywc/milestone-project-3). 
 
 ## Credits
 -	Almost all text riddles came from [IcebreakerIdeas.com]( https://icebreakerideas.com/riddles-for-kids/) . All others came from friends and family
