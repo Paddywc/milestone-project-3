@@ -4,7 +4,7 @@ MarkupSafe==0.18
 Werkzeug==0.9.4
 chardet==2.2.1
 colorama==0.2.5
-html5lib==0.999
+html5lib==0.999999999
 itsdangerous==0.22
 pycurl==7.19.3
 pyinotify==0.9.4
